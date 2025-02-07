@@ -22,12 +22,12 @@ After adding the dependency you'll be able to import the package and initialize 
 
 Example (Jolpica.swift)
 ```
-    import JolpicaKit
+import JolpicaKit
 
-    // This necessary for Swift 6+, you could also mark the variable with @MainActor
-    nonisolated(unsafe) let jolpica = Jolpica(
-        enableLogging: true
-    )
+// This necessary for Swift 6+, you could also mark the variable with @MainActor
+nonisolated(unsafe) let jolpica = Jolpica(
+    enableLogging: true
+)
 ```
 
 # Documentation
