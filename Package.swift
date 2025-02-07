@@ -6,10 +6,10 @@ import PackageDescription
 let package = Package(
     name: "JolpicaKit",
     platforms: [
-        .iOS(.v15),
-        .macOS(.v12),
-        .watchOS(.v8),
-        .tvOS(.v15),
+        .iOS(.v13),
+        .macOS(.v10_15),
+        .watchOS(.v6),
+        .tvOS(.v13),
         .visionOS(.v1)
     ],
     products: [

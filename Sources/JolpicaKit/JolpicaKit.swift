@@ -12,12 +12,14 @@ public enum Result<T> {
     case failure(_ err: String)
 }
 
-struct Jolpica {
-    static let shared = Jolpica()
+class Jolpica {
+    private var enableLogging: Bool = false
     
-    var enableLogging: Bool = false
+    init(enableLogging: Bool = false) {
+        self.enableLogging = enableLogging
+    }
     
-    func formRequest(season: String?, round: String?, endpoint: String, filters: [String]) -> URLRequest {
+    internal func formRequest(season: String?, round: String?, endpoint: String, filters: [String]) -> URLRequest {
         let url = URL(string: "")!
         
         var request = URLRequest(url: url)
@@ -28,7 +30,7 @@ struct Jolpica {
         return request
     }
     
-    func request<T: Decodable>(request: URLRequest, decode: T.Type) async -> Result<T> {
+    internal func request<T: Decodable>(request: URLRequest, decode: T.Type) async -> Result<T> {
         if enableLogging {
             print("[Jolpica] \(request.httpMethod!) \(request.url?.absoluteString ?? "")")
         }
