@@ -24,8 +24,7 @@ Example (Jolpica.swift)
 ```
 import JolpicaKit
 
-// This necessary for Swift 6+, you could also mark the variable with @MainActor
-nonisolated(unsafe) let jolpica = Jolpica(
+let jolpica = Jolpica(
     enableLogging: true
 )
 ```

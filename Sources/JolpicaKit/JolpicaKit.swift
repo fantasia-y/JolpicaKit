@@ -12,8 +12,8 @@ public enum Result<T> {
     case failure(_ err: String)
 }
 
-class Jolpica {
-    private var enableLogging: Bool = false
+final class Jolpica: Sendable {
+    private let enableLogging: Bool
     
     init(enableLogging: Bool = false) {
         self.enableLogging = enableLogging
