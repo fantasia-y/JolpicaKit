@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import os
+import Logging
 
 public enum Result<T: Sendable>: Sendable {
     case success(_ response: T)
@@ -52,13 +52,9 @@ public class JolpicaEndpoint {
         self.config = config
     }
     
-    private func log(_ message: String) {
+    private func log(_ message: String, _ level: Logger.Level = .info) {
         if config.enableLogging {
-            if #available(iOS 14.0, OSX 11.0, tvOS 14.0, visionOS 1.0, watchOS 7.0, *) {
-                logger.log("[JolpicaKit] \(message)")
-            } else {
-                print("[JolpicaKit] \(message)")
-            }
+            logger.log(level: level, "\(message)")
         }
     }
     
@@ -127,10 +123,12 @@ public class JolpicaEndpoint {
             if let resultData = result.first {
                 return .success(resultData.value)
             } else {
-                return .failure("failed parsing response, root key \"MRData\" not present")
+                log("failed parsing response, root key \"MRData\" not present", .error)
+                
+                return .failure("Failed to parse response")
             }
         } catch {
-            log("failed parsing successful response, error: \(error.localizedDescription)")
+            log("failed parsing successful response, error: \(error.localizedDescription)", .error)
             
             return .failure("Failed to parse response")
         }
