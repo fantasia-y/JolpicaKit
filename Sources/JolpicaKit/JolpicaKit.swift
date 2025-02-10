@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct JolpicaConfig {
+public struct JolpicaConfig {
     let baseURL = "https://api.jolpi.ca/ergast/f1"
     let enableLogging: Bool
     
@@ -16,28 +16,28 @@ struct JolpicaConfig {
     }
 }
 
-final class JolpicaClient: Sendable {
-    let circuits: CircuitsEndpoint
-    let constructors: ConstructorsEndpoint
-    let drivers: DriversEndpoint
-    let seasons: SeasonsEndpoint
-    let races: RacesEndpoint
-    let constructorStandings: ConstructorStandingsEndpoint
-    let driverStandings: DriverStandingsEndpoint
-    let status: StatusEndpoint
-    let laps: LapsEndpoint
-    let pitstops: PitstopsEndpoint
-    let qualifying: QualifyingsEndpoint
-    let results: ResultsEndpoint
-    let sprints: SprintsEndpoint
+public final class JolpicaClient: Sendable {
+    public let circuits: CircuitsEndpoint
+    public let constructors: ConstructorsEndpoint
+    public let drivers: DriversEndpoint
+    public let seasons: SeasonsEndpoint
+    public let races: RacesEndpoint
+    public let constructorStandings: ConstructorStandingsEndpoint
+    public let driverStandings: DriverStandingsEndpoint
+    public let status: StatusEndpoint
+    public let laps: LapsEndpoint
+    public let pitstops: PitstopsEndpoint
+    public let qualifying: QualifyingsEndpoint
+    public let results: ResultsEndpoint
+    public let sprints: SprintsEndpoint
     
-    convenience init(enableLogging: Bool = false) {
+    public convenience init(enableLogging: Bool = false) {
         self.init(config: JolpicaConfig(
             enableLogging: enableLogging
         ))
     }
     
-    init(config: JolpicaConfig) {
+    public init(config: JolpicaConfig) {
         self.circuits = CircuitsEndpoint(config: config)
         self.constructors = ConstructorsEndpoint(config: config)
         self.drivers = DriversEndpoint(config: config)

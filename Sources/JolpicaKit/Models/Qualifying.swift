@@ -7,16 +7,16 @@
 
 import Foundation
 
-struct QualifyingResults: RaceAdditionalData {
-    static var dataKey: String { "QualifyingResults" }
+public struct QualifyingResults: RaceAdditionalData {
+    public static var dataKey: String { "QualifyingResults" }
     
-    let number: String
-    let position: String
-    let driver: Driver
-    let constructor: Constructor
-    let q1: String?
-    let q2: String?
-    let q3: String?
+    public let number: String
+    public let position: String
+    public let driver: Driver
+    public let constructor: Constructor
+    public let q1: String?
+    public let q2: String?
+    public let q3: String?
     
     enum CodingKeys: String, CodingKey {
         case number

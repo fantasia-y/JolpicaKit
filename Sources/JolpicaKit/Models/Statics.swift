@@ -7,14 +7,14 @@
 
 import Foundation
 
-struct MRData<T: ResultData>: Decodable {
-    let xmlns: String
-    let series: String
-    let url: String
-    let limit: String
-    let offset: String
-    let total: String
-    let result: T
+public struct MRData<T: ResultData>: Decodable {
+    public let xmlns: String
+    public let series: String
+    public let url: String
+    public let limit: String
+    public let offset: String
+    public let total: String
+    public let result: T
 
     struct CodingKeys: CodingKey {
         let stringValue: String
@@ -31,7 +31,7 @@ struct MRData<T: ResultData>: Decodable {
         static var result: Self { Self(stringValue: T.resultKey) }
     }
 
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.xmlns = try container.decode(String.self, forKey: CodingKeys(stringValue: "xmlns"))
         self.series = try container.decode(String.self, forKey: CodingKeys(stringValue: "series"))
@@ -43,29 +43,29 @@ struct MRData<T: ResultData>: Decodable {
     }
 }
 
-protocol ResultData: Decodable {
+public protocol ResultData: Decodable {
     static var resultKey: String { get }
 }
 
-struct Location: Decodable {
-    let lat: String
-    let long: String
-    let locality: String
-    let country: String
+public struct Location: Decodable {
+    public let lat: String
+    public let long: String
+    public let locality: String
+    public let country: String
 }
 
-struct Timing: Decodable {
-    let driverId: String
-    let position: String
-    let time: String
+public struct Timing: Decodable {
+    public let driverId: String
+    public let position: String
+    public let time: String
 }
 
-struct Event: Decodable {
-    let date: String
-    let time: String
+public struct Event: Decodable {
+    public let date: String
+    public let time: String?
 }
 
-struct Time: Decodable {
-    let millis: String?
-    let time: String
+public struct Time: Decodable {
+    public let millis: String?
+    public let time: String
 }

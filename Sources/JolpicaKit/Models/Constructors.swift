@@ -7,19 +7,19 @@
 
 import Foundation
 
-struct ConstructorTable: ResultData {
-    static var resultKey: String { "ConstructorTable" }
+public struct ConstructorTable: ResultData {
+    public static var resultKey: String { "ConstructorTable" }
     
-    let constructors: [Constructor]
+    public let constructors: [Constructor]
     
     enum CodingKeys: String, CodingKey {
         case constructors = "Constructors"
     }
 }
 
-struct Constructor: Decodable {
-    let constructorId: String?
-    let url: String?
-    let name: String
-    let nationality: String?
+public struct Constructor: Decodable {
+    public let constructorId: String?
+    public let url: String?
+    public let name: String
+    public let nationality: String?
 }

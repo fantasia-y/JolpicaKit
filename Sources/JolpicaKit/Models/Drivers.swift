@@ -7,23 +7,23 @@
 
 import Foundation
 
-struct DriverTable: ResultData {
-    static var resultKey: String { "DriverTable" }
+public struct DriverTable: ResultData {
+    public static var resultKey: String { "DriverTable" }
     
-    let drivers: [Driver]
+    public let drivers: [Driver]
     
     enum CodingKeys: String, CodingKey {
         case drivers = "Drivers"
     }
 }
 
-struct Driver: Codable {
-    let driverId: String
-    let permanentNumber: String?
-    let code: String?
-    let url: String?
-    let givenName: String
-    let familyName: String
-    let dateOfBirth: String?
-    let nationality: String?
+public struct Driver: Codable {
+    public let driverId: String
+    public let permanentNumber: String?
+    public let code: String?
+    public let url: String?
+    public let givenName: String
+    public let familyName: String
+    public let dateOfBirth: String?
+    public let nationality: String?
 }

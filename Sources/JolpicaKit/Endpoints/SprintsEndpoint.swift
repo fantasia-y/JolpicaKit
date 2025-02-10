@@ -7,8 +7,8 @@
 
 import Foundation
 
-class SprintsEndpoint: JolpicaEndpoint, @unchecked Sendable {
-    public func getSprints(season: String?, round: String?) async -> Result<MRData<RaceTableAnd<Sprint>>> {
+public class SprintsEndpoint: JolpicaEndpoint, @unchecked Sendable {
+    public func getSprints(season: String? = nil, round: String? = nil) async -> Result<MRData<RaceTableAnd<Sprint>>> {
         return await execute(JolpicaRequest(
             endpoint: .sprints,
             season: season,
@@ -16,7 +16,7 @@ class SprintsEndpoint: JolpicaEndpoint, @unchecked Sendable {
         ))
     }
     
-    public func getSprints(season: String?, round: String?, circuitId: String) async -> Result<MRData<RaceTableAnd<Sprint>>> {
+    public func getSprints(season: String? = nil, round: String? = nil, circuitId: String) async -> Result<MRData<RaceTableAnd<Sprint>>> {
         return await execute(JolpicaRequest(
             endpoint: .circuits,
             season: season,
@@ -25,7 +25,7 @@ class SprintsEndpoint: JolpicaEndpoint, @unchecked Sendable {
         ))
     }
     
-    public func getSprints(season: String?, round: String?, constructorId: String) async -> Result<MRData<RaceTableAnd<Sprint>>> {
+    public func getSprints(season: String? = nil, round: String? = nil, constructorId: String) async -> Result<MRData<RaceTableAnd<Sprint>>> {
         return await execute(JolpicaRequest(
             endpoint: .constructors,
             season: season,
@@ -34,7 +34,7 @@ class SprintsEndpoint: JolpicaEndpoint, @unchecked Sendable {
         ))
     }
     
-    public func getSprints(season: String?, round: String?, driverId: String) async -> Result<MRData<RaceTableAnd<Sprint>>> {
+    public func getSprints(season: String? = nil, round: String? = nil, driverId: String) async -> Result<MRData<RaceTableAnd<Sprint>>> {
         return await execute(JolpicaRequest(
             endpoint: .drivers,
             season: season,
@@ -43,7 +43,7 @@ class SprintsEndpoint: JolpicaEndpoint, @unchecked Sendable {
         ))
     }
     
-    public func getSprints(season: String?, round: String?, gridPosition: String) async -> Result<MRData<RaceTableAnd<Sprint>>> {
+    public func getSprints(season: String? = nil, round: String? = nil, gridPosition: String) async -> Result<MRData<RaceTableAnd<Sprint>>> {
         return await execute(JolpicaRequest(
             endpoint: .grid,
             season: season,
@@ -52,7 +52,7 @@ class SprintsEndpoint: JolpicaEndpoint, @unchecked Sendable {
         ))
     }
     
-    public func getSprints(season: String?, round: String?, statusId: String) async -> Result<MRData<RaceTableAnd<Sprint>>> {
+    public func getSprints(season: String? = nil, round: String? = nil, statusId: String) async -> Result<MRData<RaceTableAnd<Sprint>>> {
         return await execute(JolpicaRequest(
             endpoint: .status,
             season: season,

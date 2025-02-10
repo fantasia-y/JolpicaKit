@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct StandingsTable<T: Standing>: ResultData {
-    static var resultKey: String { "StandingsTable" }
+public struct StandingsTable<T: Standing>: ResultData {
+    public static var resultKey: String { "StandingsTable" }
     
-    let season: String
-    let round: String
-    let standings: [Standings<T>]
+    public let season: String
+    public let round: String
+    public let standings: [Standings<T>]
     
     enum CodingKeys: String, CodingKey {
         case season
@@ -21,10 +21,10 @@ struct StandingsTable<T: Standing>: ResultData {
     }
 }
 
-struct Standings<T: Standing>: Decodable {
-    let season: String
-    let round: String
-    let standings: [T]
+public struct Standings<T: Standing>: Decodable {
+    public let season: String
+    public let round: String
+    public let standings: [T]
     
     struct CodingKeys: CodingKey {
         let stringValue: String
@@ -49,18 +49,18 @@ struct Standings<T: Standing>: Decodable {
     }
 }
 
-protocol Standing: Decodable {
+public protocol Standing: Decodable {
     static var standingKey: String { get }
 }
 
-struct ConstructorStanding: Standing {
-    static var standingKey: String { "ConstructorStandings" }
+public struct ConstructorStanding: Standing {
+    public static var standingKey: String { "ConstructorStandings" }
     
-    let position: String?
-    let positionText: String
-    let points: String
-    let wins: String
-    let constructor: Constructor
+    public let position: String?
+    public let positionText: String
+    public let points: String
+    public let wins: String
+    public let constructor: Constructor
     
     enum CodingKeys: String, CodingKey {
         case position
@@ -71,15 +71,15 @@ struct ConstructorStanding: Standing {
     }
 }
 
-struct DriverStanding: Standing {
-    static var standingKey: String { "DriverStandings" }
+public struct DriverStanding: Standing {
+    public static var standingKey: String { "DriverStandings" }
     
-    let position: String?
-    let positionText: String
-    let points: String
-    let wins: String
-    let driver: Driver
-    let constructors: [Constructor]
+    public let position: String?
+    public let positionText: String
+    public let points: String
+    public let wins: String
+    public let driver: Driver
+    public let constructors: [Constructor]
     
     enum CodingKeys: String, CodingKey {
         case position

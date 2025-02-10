@@ -7,18 +7,18 @@
 
 import Foundation
 
-struct Sprint: RaceAdditionalData {
-    static var dataKey: String { "SprintResults" }
+public struct Sprint: RaceAdditionalData {
+    public static var dataKey: String { "SprintResults" }
     
-    let number: String
-    let position: String
-    let positionText: String
-    let points: String
-    let driver: Driver
-    let constructor: Constructor?
-    let grid: String?
-    let laps: String?
-    let status: String?
-    let time: Time?
-    let fastestLap: FastestLap?
+    public let number: String
+    public let position: String
+    public let positionText: String
+    public let points: String
+    public let driver: Driver
+    public let constructor: Constructor?
+    public let grid: String?
+    public let laps: String?
+    public let status: String?
+    public let time: Time?
+    public let fastestLap: FastestLap?
 }

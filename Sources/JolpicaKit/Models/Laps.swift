@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct Lap: RaceAdditionalData {
-    static var dataKey: String { "Laps" }
+public struct Lap: RaceAdditionalData {
+    public static var dataKey: String { "Laps" }
     
-    let number: String
-    let timings: Timing
+    public let number: String
+    public let timings: [Timing]
     
     enum CodingKeys: String, CodingKey {
         case number

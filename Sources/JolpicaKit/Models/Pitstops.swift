@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct Pitstop: RaceAdditionalData {
-    static var dataKey: String { "PitStops" }
+public struct Pitstop: RaceAdditionalData {
+    public static var dataKey: String { "PitStops" }
     
-    let driverId: String
-    let lap: String?
-    let stop: String?
-    let time: String?
-    let duration: String?
+    public let driverId: String
+    public let lap: String?
+    public let stop: String?
+    public let time: String?
+    public let duration: String?
 }

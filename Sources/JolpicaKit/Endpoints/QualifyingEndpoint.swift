@@ -7,13 +7,13 @@
 
 import Foundation
 
-class QualifyingsEndpoint: JolpicaEndpoint, @unchecked Sendable {
+public class QualifyingsEndpoint: JolpicaEndpoint, @unchecked Sendable {
     /// Returns a list of qualification results from each race.
     ///
     /// - Parameters:
     ///     - season: Filters for qualifying results only from a specified season. Year numbers are valid as is current to get the current season.
     ///     - round: Filters for the qualifying results for a specified round in a specific season. Round numbers 1 -> n races are valid as well as last and next.
-    public func getQualifyings(season: String?, round: String?) async -> Result<MRData<RaceTableAnd<QualifyingResults>>> {
+    public func getQualifyings(season: String? = nil, round: String? = nil) async -> Result<MRData<RaceTableAnd<QualifyingResults>>> {
         return await execute(JolpicaRequest(
             endpoint: .qualifying,
             season: season,
@@ -27,7 +27,7 @@ class QualifyingsEndpoint: JolpicaEndpoint, @unchecked Sendable {
     ///     - season: Filters for qualifying results only from a specified season. Year numbers are valid as is current to get the current season.
     ///     - round: Filters for the qualifying results for a specified round in a specific season. Round numbers 1 -> n races are valid as well as last and next.
     ///     - circuitId: Filters for the qualifying results at a specified circuit.
-    public func getQualifyings(season: String?, round: String?, circuitId: String) async -> Result<MRData<RaceTableAnd<QualifyingResults>>> {
+    public func getQualifyings(season: String? = nil, round: String? = nil, circuitId: String) async -> Result<MRData<RaceTableAnd<QualifyingResults>>> {
         return await execute(JolpicaRequest(
             endpoint: .circuits,
             season: season,
@@ -42,7 +42,7 @@ class QualifyingsEndpoint: JolpicaEndpoint, @unchecked Sendable {
     ///     - season: Filters for qualifying results only from a specified season. Year numbers are valid as is current to get the current season.
     ///     - round: Filters for the qualifying results for a specified round in a specific season. Round numbers 1 -> n races are valid as well as last and next.
     ///     - constructorId: Filters for the qualifying results of drivers driving for a specified constructor.
-    public func getQualifyings(season: String?, round: String?, constructorId: String) async -> Result<MRData<RaceTableAnd<QualifyingResults>>> {
+    public func getQualifyings(season: String? = nil, round: String? = nil, constructorId: String) async -> Result<MRData<RaceTableAnd<QualifyingResults>>> {
         return await execute(JolpicaRequest(
             endpoint: .constructors,
             season: season,
@@ -57,7 +57,7 @@ class QualifyingsEndpoint: JolpicaEndpoint, @unchecked Sendable {
     ///     - season: Filters for qualifying results only from a specified season. Year numbers are valid as is current to get the current season.
     ///     - round: Filters for the qualifying results for a specified round in a specific season. Round numbers 1 -> n races are valid as well as last and next.
     ///     - driverId: Filters for the qualifying results of a specified driver.
-    public func getQualifyings(season: String?, round: String?, driverId: String) async -> Result<MRData<RaceTableAnd<QualifyingResults>>> {
+    public func getQualifyings(season: String? = nil, round: String? = nil, driverId: String) async -> Result<MRData<RaceTableAnd<QualifyingResults>>> {
         return await execute(JolpicaRequest(
             endpoint: .drivers,
             season: season,
@@ -72,7 +72,7 @@ class QualifyingsEndpoint: JolpicaEndpoint, @unchecked Sendable {
     ///     - season: Filters for qualifying results only from a specified season. Year numbers are valid as is current to get the current season.
     ///     - round: Filters for the qualifying results for a specified round in a specific season. Round numbers 1 -> n races are valid as well as last and next.
     ///     - gridPosition: Filters for the qualifying results of a driver who started the associated race in a specified grid position.
-    public func getQualifyings(season: String?, round: String?, gridPosition: String) async -> Result<MRData<RaceTableAnd<QualifyingResults>>> {
+    public func getQualifyings(season: String? = nil, round: String? = nil, gridPosition: String) async -> Result<MRData<RaceTableAnd<QualifyingResults>>> {
         return await execute(JolpicaRequest(
             endpoint: .grid,
             season: season,
@@ -87,7 +87,7 @@ class QualifyingsEndpoint: JolpicaEndpoint, @unchecked Sendable {
     ///     - season: Filters for qualifying results only from a specified season. Year numbers are valid as is current to get the current season.
     ///     - round: Filters for the qualifying results for a specified round in a specific season. Round numbers 1 -> n races are valid as well as last and next.
     ///     - lapRank: Filters for the qualifying results a driver with the fastest lap rank at a given Grand Prix.
-    public func getQualifyings(season: String?, round: String?, lapRank: String) async -> Result<MRData<RaceTableAnd<QualifyingResults>>> {
+    public func getQualifyings(season: String? = nil, round: String? = nil, lapRank: String) async -> Result<MRData<RaceTableAnd<QualifyingResults>>> {
         return await execute(JolpicaRequest(
             endpoint: .fastest,
             season: season,
@@ -102,7 +102,7 @@ class QualifyingsEndpoint: JolpicaEndpoint, @unchecked Sendable {
     ///     - season: Filters for qualifying results only from a specified season. Year numbers are valid as is current to get the current season.
     ///     - round: Filters for the qualifying results for a specified round in a specific season. Round numbers 1 -> n races are valid as well as last and next.
     ///     - statusId: Filters for the qualifying results of any drivers with the finishing statusId at a given Grand Prix.
-    public func getQualifyings(season: String?, round: String?, statusId: String) async -> Result<MRData<RaceTableAnd<QualifyingResults>>> {
+    public func getQualifyings(season: String? = nil, round: String? = nil, statusId: String) async -> Result<MRData<RaceTableAnd<QualifyingResults>>> {
         return await execute(JolpicaRequest(
             endpoint: .status,
             season: season,

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class LapsEndpoint: JolpicaEndpoint, @unchecked Sendable {
+public class LapsEndpoint: JolpicaEndpoint, @unchecked Sendable {
     /// Returns a list of data for laps from a given race.
     ///
     /// - Note: Data starts from the 1996 season.

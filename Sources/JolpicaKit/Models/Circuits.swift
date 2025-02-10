@@ -7,21 +7,21 @@
 
 import Foundation
 
-struct CircuitTable: ResultData {
-    static var resultKey: String { "CircuitTable" }
+public struct CircuitTable: ResultData {
+    public static var resultKey: String { "CircuitTable" }
     
-    let circuits: [Circuit]
+    public let circuits: [Circuit]
     
     enum CodingKeys: String, CodingKey {
         case circuits = "Circuits"
     }
 }
 
-struct Circuit: Decodable {
-    let circuitId: String
-    let url: String
-    let circuitName: String
-    let location: Location
+public struct Circuit: Decodable {
+    public let circuitId: String
+    public let url: String
+    public let circuitName: String
+    public let location: Location
     
     enum CodingKeys: String, CodingKey {
         case circuitId

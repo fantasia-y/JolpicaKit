@@ -8,12 +8,12 @@
 import Foundation
 import os
 
-enum Result<T> {
+public enum Result<T> {
     case success(_ response: T)
     case failure(_ err: String)
 }
 
-enum Endpoint: String {
+public enum Endpoint: String {
     case circuits = "circuits"
     case constructors = "constructors"
     case drivers = "drivers"
@@ -31,7 +31,7 @@ enum Endpoint: String {
     case sprints = "sprint"
 }
 
-struct JolpicaRequest {
+public struct JolpicaRequest {
     let endpoint: Endpoint
     let season: String?
     let round: String?
@@ -45,7 +45,7 @@ struct JolpicaRequest {
     }
 }
 
-class JolpicaEndpoint {
+public class JolpicaEndpoint {
     private let config: JolpicaConfig
     
     init(config: JolpicaConfig) {
@@ -62,7 +62,7 @@ class JolpicaEndpoint {
         }
     }
     
-    public func execute<T: Decodable>(_ request: JolpicaRequest) async -> Result<T> {
+    internal func execute<T: Decodable>(_ request: JolpicaRequest) async -> Result<T> {
         let req = self.formRequest(season: request.season, round: request.round, endpoint: request.endpoint.rawValue, filters: request.filters)
         
         return await self.request(request: req, decode: T.self)
@@ -87,8 +87,6 @@ class JolpicaEndpoint {
         
         baseURL += ".json"
         
-        print(baseURL)
-        
         let url = URL(string: baseURL)!
         var request = URLRequest(url: url)
         
@@ -109,7 +107,6 @@ class JolpicaEndpoint {
             }
             
             log("response code: \(httpResponse.statusCode)")
-            print(String(decoding: data, as: UTF8.self))
             
             if httpResponse.isSuccessful() {
                 return self.parseResponse(data: data)
@@ -125,9 +122,15 @@ class JolpicaEndpoint {
         do {
             let decoder = JSONDecoder()
             
-            return .success(try decoder.decode(T.self, from: data))
+            let result = try decoder.decode([String: T].self, from: data)
+            
+            if let resultData = result.first {
+                return .success(resultData.value)
+            } else {
+                return .failure("failed parsing response, root key \"MRData\" not present")
+            }
         } catch {
-            print("failed parsing successful response, error: \(error.localizedDescription)")
+            log("failed parsing successful response, error: \(error.localizedDescription)")
             
             return .failure("Failed to parse response")
         }

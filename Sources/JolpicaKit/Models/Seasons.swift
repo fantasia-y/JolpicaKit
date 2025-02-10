@@ -7,17 +7,17 @@
 
 import Foundation
 
-struct SeasonTable: ResultData {
-    static var resultKey: String { "SeasonTable" }
+public struct SeasonTable: ResultData {
+    public static var resultKey: String { "SeasonTable" }
     
-    let seasons: [Season]
+    public let seasons: [Season]
     
     enum CodingKeys: String, CodingKey {
         case seasons = "Seasons"
     }
 }
 
-struct Season: Decodable {
-    let season: String
-    let url: String
+public struct Season: Decodable {
+    public let season: String
+    public let url: String
 }

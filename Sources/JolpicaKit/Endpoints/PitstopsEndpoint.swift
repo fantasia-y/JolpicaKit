@@ -7,7 +7,7 @@
 
 import Foundation
 
-class PitstopsEndpoint: JolpicaEndpoint, @unchecked Sendable {
+public class PitstopsEndpoint: JolpicaEndpoint, @unchecked Sendable {
     /// Returns a given races list of pitstops, from earliest to latest time in which the pitstop occurred.
     ///
     /// - Note: Data starts from the 2011 season.

@@ -7,29 +7,13 @@
 
 import Foundation
 
-struct RaceTable: ResultData {
-    static var resultKey: String { "RaceTable" }
+public struct RaceTable: ResultData {
+    public static var resultKey: String { "RaceTable" }
     
-    let season: String?
-    let round: String?
-    let lap: String?
-    let races: [Race]
-    
-    enum CodingKeys: String, CodingKey {
-        case season
-        case round
-        case lap
-        case races = "Races"
-    }
-}
-
-struct RaceTableAnd<T: RaceAdditionalData>: ResultData {
-    static var resultKey: String { "RaceTable" }
-    
-    let season: String?
-    let round: String?
-    let lap: String?
-    let races: [RaceAnd<T>]
+    public let season: String?
+    public let round: String?
+    public let lap: String?
+    public let races: [Race]
     
     enum CodingKeys: String, CodingKey {
         case season
@@ -39,31 +23,63 @@ struct RaceTableAnd<T: RaceAdditionalData>: ResultData {
     }
 }
 
-struct Race: Decodable {
-    let season: String
-    let round: String
-    let url: String
-    let raceName: String
-    let circuit: Circuit
-    let date: String
-    let time: String?
-    let FirstPractice: Event?
-    let SecondPractice: Event?
-    let ThirdPractice: Event?
-    let Qualifying: Event?
-    let Sprint: Event?
-    let SprintQualifying: Event?
+public struct RaceTableAnd<T: RaceAdditionalData>: ResultData {
+    public static var resultKey: String { "RaceTable" }
+    
+    public let season: String?
+    public let round: String?
+    public let lap: String?
+    public let races: [RaceAnd<T>]
+    
+    enum CodingKeys: String, CodingKey {
+        case season
+        case round
+        case lap
+        case races = "Races"
+    }
 }
 
-struct RaceAnd<T: RaceAdditionalData>: Decodable {
-    let season: String
-    let round: String
-    let url: String
-    let raceName: String
-    let circuit: Circuit
-    let date: String
-    let time: String?
-    let additionalData: [T]?
+public struct Race: Decodable {
+    public let season: String
+    public let round: String
+    public let url: String
+    public let raceName: String
+    public let circuit: Circuit
+    public let date: String
+    public let time: String?
+    public let firstPractice: Event?
+    public let secondPractice: Event?
+    public let thirdPractice: Event?
+    public let qualifying: Event?
+    public let sprint: Event?
+    public let sprintQualifying: Event?
+    
+    enum CodingKeys: String, CodingKey {
+        case season
+        case round
+        case url
+        case raceName
+        case circuit = "Circuit"
+        case date
+        case time
+        case firstPractice = "FirstPractice"
+        case secondPractice = "SecondPractice"
+        case thirdPractice = "ThirdPractice"
+        case qualifying = "Qualifying"
+        case sprint = "Sprint"
+        case sprintQualifying = "SprintQualifying"
+    }
+}
+
+public struct RaceAnd<T: RaceAdditionalData>: Decodable {
+    public let season: String
+    public let round: String
+    public let url: String
+    public let raceName: String
+    public let circuit: Circuit
+    public let date: String
+    public let time: String?
+    public let additionalData: [T]?
     
     struct CodingKeys: CodingKey {
         let stringValue: String
@@ -86,22 +102,22 @@ struct RaceAnd<T: RaceAdditionalData>: Decodable {
         self.round = try container.decode(String.self, forKey: CodingKeys(stringValue: "round"))
         self.url = try container.decode(String.self, forKey: CodingKeys(stringValue: "url"))
         self.raceName = try container.decode(String.self, forKey: CodingKeys(stringValue: "raceName"))
-        self.circuit = try container.decode(Circuit.self, forKey: CodingKeys(stringValue: "circuit"))
+        self.circuit = try container.decode(Circuit.self, forKey: CodingKeys(stringValue: "Circuit"))
         self.date = try container.decode(String.self, forKey: CodingKeys(stringValue: "date"))
         self.time = try container.decode(String.self, forKey: CodingKeys(stringValue: "time"))
         self.additionalData = try container.decode([T].self, forKey: CodingKeys.additionalData)
     }
 }
 
-protocol RaceAdditionalData: Decodable {
+public protocol RaceAdditionalData: Decodable {
     static var dataKey: String { get }
 }
 
-struct FastestLap: Decodable {
-    let rank: String
-    let lap: String
-    let time: Time
-    let averageSpeed: AverageSpeed
+public struct FastestLap: Decodable {
+    public let rank: String
+    public let lap: String
+    public let time: Time
+    public let averageSpeed: AverageSpeed
     
     enum CodingKeys: String, CodingKey {
         case rank
@@ -110,8 +126,8 @@ struct FastestLap: Decodable {
         case averageSpeed = "AverageSpeed"
     }
     
-    struct AverageSpeed: Decodable {
-        let units: String
-        let speed: String
+    public struct AverageSpeed: Decodable {
+        public let units: String
+        public let speed: String
     }
 }
