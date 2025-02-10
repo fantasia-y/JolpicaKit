@@ -39,7 +39,7 @@ public struct RaceTableAnd<T: RaceAdditionalData>: ResultData {
     }
 }
 
-public struct Race: Decodable {
+public struct Race: Decodable, Sendable {
     public let season: String
     public let round: String
     public let url: String
@@ -71,7 +71,7 @@ public struct Race: Decodable {
     }
 }
 
-public struct RaceAnd<T: RaceAdditionalData>: Decodable {
+public struct RaceAnd<T: RaceAdditionalData>: Decodable, Sendable {
     public let season: String
     public let round: String
     public let url: String
@@ -109,11 +109,11 @@ public struct RaceAnd<T: RaceAdditionalData>: Decodable {
     }
 }
 
-public protocol RaceAdditionalData: Decodable {
+public protocol RaceAdditionalData: Decodable, Sendable {
     static var dataKey: String { get }
 }
 
-public struct FastestLap: Decodable {
+public struct FastestLap: Decodable, Sendable {
     public let rank: String
     public let lap: String
     public let time: Time
@@ -126,7 +126,7 @@ public struct FastestLap: Decodable {
         case averageSpeed = "AverageSpeed"
     }
     
-    public struct AverageSpeed: Decodable {
+    public struct AverageSpeed: Decodable, Sendable {
         public let units: String
         public let speed: String
     }

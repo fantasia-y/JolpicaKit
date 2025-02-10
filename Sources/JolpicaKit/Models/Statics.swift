@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct MRData<T: ResultData>: Decodable {
+public struct MRData<T: ResultData>: Decodable, Sendable {
     public let xmlns: String
     public let series: String
     public let url: String
@@ -43,29 +43,29 @@ public struct MRData<T: ResultData>: Decodable {
     }
 }
 
-public protocol ResultData: Decodable {
+public protocol ResultData: Decodable, Sendable {
     static var resultKey: String { get }
 }
 
-public struct Location: Decodable {
+public struct Location: Decodable, Sendable {
     public let lat: String
     public let long: String
     public let locality: String
     public let country: String
 }
 
-public struct Timing: Decodable {
+public struct Timing: Decodable, Sendable {
     public let driverId: String
     public let position: String
     public let time: String
 }
 
-public struct Event: Decodable {
+public struct Event: Decodable, Sendable {
     public let date: String
     public let time: String?
 }
 
-public struct Time: Decodable {
+public struct Time: Decodable, Sendable {
     public let millis: String?
     public let time: String
 }

@@ -1,3 +1,5 @@
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Ffantasia-y%2FJolpicaKit%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/fantasia-y/JolpicaKit) [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Ffantasia-y%2FJolpicaKit%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/fantasia-y/JolpicaKit)
+
 #  JolpicaKit
 
 JolpicaKit is a Swift Wrapper for the Jolpica API which is a replacement for the soon deprecated Ergast API.
@@ -50,6 +52,7 @@ let jolpica = Jolpica(
 # TODO
 
 - [ ] Query Parameters (limit, offset)
+- [ ] More control over caching
 - [ ] Tests
 
 # Usage

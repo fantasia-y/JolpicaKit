@@ -8,7 +8,7 @@
 import Foundation
 import os
 
-public enum Result<T> {
+public enum Result<T: Sendable>: Sendable {
     case success(_ response: T)
     case failure(_ err: String)
 }

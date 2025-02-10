@@ -17,7 +17,7 @@ public struct SeasonTable: ResultData {
     }
 }
 
-public struct Season: Decodable {
+public struct Season: Decodable, Sendable {
     public let season: String
     public let url: String
 }

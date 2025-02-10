@@ -19,7 +19,7 @@ public struct StatusTable: ResultData {
     }
 }
 
-public struct Status: Decodable {
+public struct Status: Decodable, Sendable {
     public let statusId: String
     public let count: String
     public let status: String

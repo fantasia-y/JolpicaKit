@@ -17,7 +17,7 @@ public struct CircuitTable: ResultData {
     }
 }
 
-public struct Circuit: Decodable {
+public struct Circuit: Decodable, Sendable {
     public let circuitId: String
     public let url: String
     public let circuitName: String

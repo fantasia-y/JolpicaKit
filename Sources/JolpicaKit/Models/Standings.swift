@@ -21,7 +21,7 @@ public struct StandingsTable<T: Standing>: ResultData {
     }
 }
 
-public struct Standings<T: Standing>: Decodable {
+public struct Standings<T: Standing>: Decodable, Sendable {
     public let season: String
     public let round: String
     public let standings: [T]
@@ -49,7 +49,7 @@ public struct Standings<T: Standing>: Decodable {
     }
 }
 
-public protocol Standing: Decodable {
+public protocol Standing: Decodable, Sendable {
     static var standingKey: String { get }
 }
 

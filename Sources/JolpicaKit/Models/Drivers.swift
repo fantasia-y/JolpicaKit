@@ -17,7 +17,7 @@ public struct DriverTable: ResultData {
     }
 }
 
-public struct Driver: Codable {
+public struct Driver: Codable, Sendable {
     public let driverId: String
     public let permanentNumber: String?
     public let code: String?

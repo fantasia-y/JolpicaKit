@@ -17,7 +17,7 @@ public struct ConstructorTable: ResultData {
     }
 }
 
-public struct Constructor: Decodable {
+public struct Constructor: Decodable, Sendable {
     public let constructorId: String?
     public let url: String?
     public let name: String
