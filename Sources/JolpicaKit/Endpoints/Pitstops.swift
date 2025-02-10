@@ -7,38 +7,71 @@
 
 import Foundation
 
-struct Pitstop: RaceAdditionalData {
-    static var dataKey: String { "PitStops" }
-    
-    let driverId: String
-    let lap: String?
-    let stop: String?
-    let time: String?
-    let duration: String?
-}
-
-extension Jolpica {
+class PitstopsEndpoint: JolpicaEndpoint, @unchecked Sendable {
+    /// Returns a given races list of pitstops, from earliest to latest time in which the pitstop occurred.
+    ///
+    /// - Note: Data starts from the 2011 season.
+    ///
+    /// - Parameters:
+    ///     - season: Filters for the season that the list of pitstops will be from. Year numbers are valid as is current to get the pitstops of a given round in the current season.
+    ///     - round: Filters for the round in a specific season that the list of pitstops will be from. Round numbers 1 -> n races are valid as well as last.
+    ///     - constructorId: Filters for the lap data for the drivers of a specific constructor in a given race.
     public func getPitstops(season: String, round: String) async -> Result<MRData<RaceTableAnd<Pitstop>>> {
-        let request = formRequest(season: season, round: round, endpoint: "pitstops", filters: [])
-        
-        return await self.request(request: request, decode: MRData<RaceTableAnd<Pitstop>>.self)
+        return await execute(JolpicaRequest(
+            endpoint: .pitstops,
+            season: season,
+            round: round
+        ))
     }
     
+    /// Filters for the nth stop for each driver in a given race.
+    ///
+    /// - Note: Data starts from the 2011 season.
+    ///
+    /// - Parameters:
+    ///     - season: Filters for the season that the list of pitstops will be from. Year numbers are valid as is current to get the pitstops of a given round in the current season.
+    ///     - round: Filters for the round in a specific season that the list of pitstops will be from. Round numbers 1 -> n races are valid as well as last.
+    ///     - stopNumber: Filters for the nth stop for each driver in a given race.
     public func getPitstops(season: String, round: String, stopNumber: String) async -> Result<MRData<RaceTableAnd<Pitstop>>> {
-        let request = formRequest(season: season, round: round, endpoint: "pitstops", filters: [stopNumber])
-        
-        return await self.request(request: request, decode: MRData<RaceTableAnd<Pitstop>>.self)
+        return await execute(JolpicaRequest(
+            endpoint: .pitstops,
+            season: season,
+            round: round,
+            filters: [stopNumber]
+        ))
     }
     
+    /// Filters for only for a specific drivers's list of pitstops in a season's round.
+    ///
+    /// - Note: Data starts from the 2011 season.
+    ///
+    /// - Parameters:
+    ///     - season: Filters for the season that the list of pitstops will be from. Year numbers are valid as is current to get the pitstops of a given round in the current season.
+    ///     - round: Filters for the round in a specific season that the list of pitstops will be from. Round numbers 1 -> n races are valid as well as last.
+    ///     - driverId: Filters for only for a specific drivers's list of pitstops in a season's round.
     public func getPitstops(season: String, round: String, driverId: String) async -> Result<MRData<RaceTableAnd<Pitstop>>> {
-        let request = formRequest(season: season, round: round, endpoint: "drivers", filters: [driverId, "pitstops"])
-        
-        return await self.request(request: request, decode: MRData<RaceTableAnd<Pitstop>>.self)
+        return await execute(JolpicaRequest(
+            endpoint: .drivers,
+            season: season,
+            round: round,
+            filters: [driverId, Endpoint.pitstops.rawValue]
+        ))
     }
     
+    /// Filters for only pitstops that took place in a given lap of a race.
+    ///
+    /// - Note: Data starts from the 2011 season.
+    ///
+    /// - Parameters:
+    ///     - season: Filters for the season that the list of pitstops will be from. Year numbers are valid as is current to get the pitstops of a given round in the current season.
+    ///     - round: Filters for the round in a specific season that the list of pitstops will be from. Round numbers 1 -> n races are valid as well as last.
+    ///     - lapNumber: Filters for only pitstops that took place in a given lap of a race.
     public func getPitstops(season: String, round: String, lapNumber: String) async -> Result<MRData<RaceTableAnd<Pitstop>>> {
-        let request = formRequest(season: season, round: round, endpoint: "laps", filters: [lapNumber, "pitstops"])
-        
-        return await self.request(request: request, decode: MRData<RaceTableAnd<Pitstop>>.self)
+        return await execute(JolpicaRequest(
+            endpoint: .laps,
+            season: season,
+            round: round,
+            filters: [lapNumber, Endpoint.pitstops.rawValue]
+        ))
     }
 }

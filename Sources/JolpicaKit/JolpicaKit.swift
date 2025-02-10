@@ -7,72 +7,48 @@
 
 import Foundation
 
-public enum Result<T> {
-    case success(_ response: T)
-    case failure(_ err: String)
-}
-
-final class Jolpica: Sendable {
-    private let enableLogging: Bool
+struct JolpicaConfig {
+    let enableLogging: Bool
     
     init(enableLogging: Bool = false) {
         self.enableLogging = enableLogging
     }
+}
+
+final class JolpicaClient: Sendable {
+    let circuits: CircuitsEndpoint
+    let constructors: ConstructorsEndpoint
+    let drivers: DriversEndpoint
+    let seasons: SeasonsEndpoint
+    let races: RacesEndpoint
+    let constructorStandings: ConstructorStandingsEndpoint
+    let driverStandings: DriverStandingsEndpoint
+    let status: StatusEndpoint
+    let laps: LapsEndpoint
+    let pitstops: PitstopsEndpoint
+    let qualifying: QualifyingsEndpoint
+    let results: ResultsEndpoint
+    let sprints: SprintsEndpoint
     
-    internal func formRequest(season: String?, round: String?, endpoint: String, filters: [String]) -> URLRequest {
-        let url = URL(string: "")!
-        
-        var request = URLRequest(url: url)
-        
-        request.httpMethod = "GET"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        return request
+    convenience init(enableLogging: Bool = false) {
+        self.init(config: JolpicaConfig(
+            enableLogging: enableLogging
+        ))
     }
     
-    internal func request<T: Decodable>(request: URLRequest, decode: T.Type) async -> Result<T> {
-        if enableLogging {
-            print("[Jolpica] \(request.httpMethod!) \(request.url?.absoluteString ?? "")")
-        }
-        
-        do {
-            let (data, response) = try await URLSession.shared.data(for: request)
-            
-            guard let httpResponse = response as? HTTPURLResponse else {
-                return .failure("") // TODO
-            }
-            
-            if enableLogging {
-                print("[Jolpica] response code: \(httpResponse.statusCode)")
-            }
-            
-            if httpResponse.isSuccessful() {
-                return self.parseResponse(data: data)
-            } else {
-                return self.parseError(response: httpResponse)
-            }
-        } catch {
-            return .failure(error.localizedDescription)
-        }
-    }
-    
-    private func parseResponse<T: Decodable>(data: Data) -> Result<T> {
-        do {
-            let decoder = JSONDecoder()
-            
-            return .success(try decoder.decode(T.self, from: data))
-        } catch {
-            if enableLogging {
-                print("[Jolpica] failed parsing successful response, error: \(error.localizedDescription)")
-            }
-            
-            return .failure("Failed to parse response")
-        }
-    }
-    
-    private func parseError<T>(response: HTTPURLResponse) -> Result<T> {
-        // TODO implement error parsing
-        
-        return .failure("TEMP Error")
+    init(config: JolpicaConfig) {
+        self.circuits = CircuitsEndpoint(config: config)
+        self.constructors = ConstructorsEndpoint(config: config)
+        self.drivers = DriversEndpoint(config: config)
+        self.seasons = SeasonsEndpoint(config: config)
+        self.races = RacesEndpoint(config: config)
+        self.constructorStandings = ConstructorStandingsEndpoint(config: config)
+        self.driverStandings = DriverStandingsEndpoint(config: config)
+        self.status = StatusEndpoint(config: config)
+        self.laps = LapsEndpoint(config: config)
+        self.pitstops = PitstopsEndpoint(config: config)
+        self.qualifying = QualifyingsEndpoint(config: config)
+        self.results = ResultsEndpoint(config: config)
+        self.sprints = SprintsEndpoint(config: config)
     }
 }

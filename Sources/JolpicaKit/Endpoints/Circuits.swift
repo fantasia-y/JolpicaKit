@@ -7,76 +7,122 @@
 
 import Foundation
 
-struct CircuitTable: ResultData {
-    static var resultKey: String { "CircuitTable" }
-    
-    let circuits: [Circuit]
-    
-    enum CodingKeys: String, CodingKey {
-        case circuits = "Circuits"
-    }
-}
-
-struct Circuit: Decodable {
-    let circuitId: String
-    let url: String
-    let circuitName: String
-    let location: Location
-    
-    enum CodingKeys: String, CodingKey {
-        case circuitId
-        case url
-        case circuitName
-        case location = "Location"
-    }
-}
-
-extension Jolpica {
+class CircuitsEndpoint: JolpicaEndpoint, @unchecked Sendable {
+    /// Returns a list of circuits in alphabetical order by circuitId.
+    ///
+    /// - Parameters:
+    ///     - season: Filters only circuits which hosted a race in a given season. Year numbers are valid as is current to get the current season's list of circuits.
+    ///     - round: Filters only for the circuit that hosted the race in the specified round of the specific season. Round numbers 1 -> n races are valid as well as last and next.
     public func getCircuits(season: String?, round: String?) async -> Result<MRData<CircuitTable>> {
-        let request = formRequest(season: season, round: round, endpoint: "circuits", filters: [])
-        
-        return await self.request(request: request, decode: MRData<CircuitTable>.self)
+        return await execute(JolpicaRequest(
+            endpoint: .circuits,
+            season: season,
+            round: round
+        ))
     }
     
+    /// Filters for only the circuit that matches the specified circuitId.
+    ///
+    /// - Parameters:
+    ///     - season: Filters only circuits which hosted a race in a given season. Year numbers are valid as is current to get the current season's list of circuits.
+    ///     - round: Filters only for the circuit that hosted the race in the specified round of the specific season. Round numbers 1 -> n races are valid as well as last and next.
+    ///     - circuitId: Filters for only the circuit that matches the specified circuitId.
     public func getCircuits(season: String?, round: String?, circuitId: String) async -> Result<MRData<CircuitTable>> {
-        let request = formRequest(season: season, round: round, endpoint: "circuits", filters: [circuitId])
-        
-        return await self.request(request: request, decode: MRData<CircuitTable>.self)
+        return await execute(JolpicaRequest(
+            endpoint: .circuits,
+            season: season,
+            round: round,
+            filters: [circuitId]
+        ))
     }
     
+    /// Filters for only circuits that the specified constructor has participated in a race at.
+    ///
+    /// - Parameters:
+    ///     - season: Filters only circuits which hosted a race in a given season. Year numbers are valid as is current to get the current season's list of circuits.
+    ///     - round: Filters only for the circuit that hosted the race in the specified round of the specific season. Round numbers 1 -> n races are valid as well as last and next.
+    ///     - constructorId: Filters for only circuits that the specified constructor has participated in a race at.
     public func getCircuits(season: String?, round: String?, constructorId: String) async -> Result<MRData<CircuitTable>> {
-        let request = formRequest(season: season, round: round, endpoint: "constructors", filters: [constructorId, "circuits"])
-        
-        return await self.request(request: request, decode: MRData<CircuitTable>.self)
+        return await execute(JolpicaRequest(
+            endpoint: .constructors,
+            season: season,
+            round: round,
+            filters: [constructorId, Endpoint.circuits.rawValue]
+        ))
     }
     
+    /// Filters for only circuits that the specified driver has participated in a race at.
+    ///
+    /// - Parameters:
+    ///     - season: Filters only circuits which hosted a race in a given season. Year numbers are valid as is current to get the current season's list of circuits.
+    ///     - round: Filters only for the circuit that hosted the race in the specified round of the specific season. Round numbers 1 -> n races are valid as well as last and next.
+    ///     - driverId: Filters for only circuits that the specified driver has participated in a race at.
     public func getCircuits(season: String?, round: String?, driverId: String) async -> Result<MRData<CircuitTable>> {
-        let request = formRequest(season: season, round: round, endpoint: "drivers", filters: [driverId, "circuits"])
-        
-        return await self.request(request: request, decode: MRData<CircuitTable>.self)
+        return await execute(JolpicaRequest(
+            endpoint: .drivers,
+            season: season,
+            round: round,
+            filters: [driverId, Endpoint.circuits.rawValue]
+        ))
     }
     
+    /// Filters for a list of circuits where a race finished with a driver completing a lap that was the ranked in the specified position.
+    ///
+    /// - Parameters:
+    ///     - season: Filters only circuits which hosted a race in a given season. Year numbers are valid as is current to get the current season's list of circuits.
+    ///     - round: Filters only for the circuit that hosted the race in the specified round of the specific season. Round numbers 1 -> n races are valid as well as last and next.
+    ///     - lapRank: Filters for a list of circuits where a race finished with a driver completing a lap that was the ranked in the specified position.
     public func getCircuits(season: String?, round: String?, lapRank: String) async -> Result<MRData<CircuitTable>> {
-        let request = formRequest(season: season, round: round, endpoint: "fastest", filters: [lapRank, "circuits"])
-        
-        return await self.request(request: request, decode: MRData<CircuitTable>.self)
+        return await execute(JolpicaRequest(
+            endpoint: .fastest,
+            season: season,
+            round: round,
+            filters: [lapRank, Endpoint.circuits.rawValue]
+        ))
     }
     
+    /// Filters for only circuits that have had a race with a specific grid position.
+    ///
+    /// - Parameters:
+    ///     - season: Filters only circuits which hosted a race in a given season. Year numbers are valid as is current to get the current season's list of circuits.
+    ///     - round: Filters only for the circuit that hosted the race in the specified round of the specific season. Round numbers 1 -> n races are valid as well as last and next.
+    ///     - gridPosition: Filters for only circuits that have had a race with a specific grid position.
     public func getCircuits(season: String?, round: String?, gridPosition: String) async -> Result<MRData<CircuitTable>> {
-        let request = formRequest(season: season, round: round, endpoint: "grid", filters: [gridPosition, "circuits"])
-        
-        return await self.request(request: request, decode: MRData<CircuitTable>.self)
+        return await execute(JolpicaRequest(
+            endpoint: .grid,
+            season: season,
+            round: round,
+            filters: [gridPosition, Endpoint.circuits.rawValue]
+        ))
     }
     
+    /// Filters for only circuits that have had a race where a specific finishing position was valid.
+    ///
+    /// - Parameters:
+    ///     - season: Filters only circuits which hosted a race in a given season. Year numbers are valid as is current to get the current season's list of circuits.
+    ///     - round: Filters only for the circuit that hosted the race in the specified round of the specific season. Round numbers 1 -> n races are valid as well as last and next.
+    ///     - finishPosition: Filters for only circuits that have had a race where a specific finishing position was valid.
     public func getCircuits(season: String?, round: String?, finishPosition: String) async -> Result<MRData<CircuitTable>> {
-        let request = formRequest(season: season, round: round, endpoint: "results", filters: [finishPosition, "circuits"])
-        
-        return await self.request(request: request, decode: MRData<CircuitTable>.self)
+        return await execute(JolpicaRequest(
+            endpoint: .results,
+            season: season,
+            round: round,
+            filters: [finishPosition, Endpoint.circuits.rawValue]
+        ))
     }
     
+    /// Filters for only circuits that have had a race where a driver finished with a specific statusId.
+    ///
+    /// - Parameters:
+    ///     - season: Filters only circuits which hosted a race in a given season. Year numbers are valid as is current to get the current season's list of circuits.
+    ///     - round: Filters only for the circuit that hosted the race in the specified round of the specific season. Round numbers 1 -> n races are valid as well as last and next.
+    ///     - statusId: Filters for only circuits that have had a race where a driver finished with a specific statusId.
     public func getCircuits(season: String?, round: String?, statusId: String) async -> Result<MRData<CircuitTable>> {
-        let request = formRequest(season: season, round: round, endpoint: "status", filters: [statusId, "circuits"])
-        
-        return await self.request(request: request, decode: MRData<CircuitTable>.self)
+        return await execute(JolpicaRequest(
+            endpoint: .status,
+            season: season,
+            round: round,
+            filters: [statusId, Endpoint.circuits.rawValue]
+        ))
     }
 }

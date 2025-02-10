@@ -7,40 +7,71 @@
 
 import Foundation
 
-struct Lap: RaceAdditionalData {
-    static var dataKey: String { "Laps" }
-    
-    let number: String
-    let timings: Timing
-    
-    enum CodingKeys: String, CodingKey {
-        case number
-        case timings = "Timings"
-    }
-}
-
-extension Jolpica {
+class LapsEndpoint: JolpicaEndpoint, @unchecked Sendable {
+    /// Returns a list of data for laps from a given race.
+    ///
+    /// - Note: Data starts from the 1996 season.
+    ///
+    /// - Parameters:
+    ///     - season: Filters for the season that the list of laps will be from. Year numbers are valid as is current to get the laps of a given round in the current season.
+    ///     - round: Filters for the round in a specific season that the list of laps will be from. Round numbers 1 -> n races are valid as well as last.
+    ///     - statusId: Filters for only drivers who have finished a race with a specific statusId.
     public func getLaps(season: String, round: String) async -> Result<MRData<RaceTableAnd<Lap>>> {
-        let request = formRequest(season: season, round: round, endpoint: "laps", filters: [])
-        
-        return await self.request(request: request, decode: MRData<RaceTableAnd<Lap>>.self)
+        return await execute(JolpicaRequest(
+            endpoint: .laps,
+            season: season,
+            round: round
+        ))
     }
     
+    /// Filters for the nth lap for each driver in a given race.
+    ///
+    /// - Note: Data starts from the 1996 season.
+    ///
+    /// - Parameters:
+    ///     - season: Filters for the season that the list of laps will be from. Year numbers are valid as is current to get the laps of a given round in the current season.
+    ///     - round: Filters for the round in a specific season that the list of laps will be from. Round numbers 1 -> n races are valid as well as last.
+    ///     - lapNumber: Filters for the nth lap for each driver in a given race.
     public func getLaps(season: String, round: String, lapNumber: String) async -> Result<MRData<RaceTableAnd<Lap>>> {
-        let request = formRequest(season: season, round: round, endpoint: "laps", filters: [lapNumber])
-        
-        return await self.request(request: request, decode: MRData<RaceTableAnd<Lap>>.self)
+        return await execute(JolpicaRequest(
+            endpoint: .laps,
+            season: season,
+            round: round,
+            filters: [lapNumber]
+        ))
     }
     
+    /// Filters for only for a specific drivers's list of laps in a specific race.
+    ///
+    /// - Note: Data starts from the 1996 season.
+    ///
+    /// - Parameters:
+    ///     - season: Filters for the season that the list of laps will be from. Year numbers are valid as is current to get the laps of a given round in the current season.
+    ///     - round: Filters for the round in a specific season that the list of laps will be from. Round numbers 1 -> n races are valid as well as last.
+    ///     - driverId: Filters for only for a specific drivers's list of laps in a specific race.
     public func getLaps(season: String, round: String, driverId: String) async -> Result<MRData<RaceTableAnd<Lap>>> {
-        let request = formRequest(season: season, round: round, endpoint: "drivers", filters: [driverId, "laps"])
-        
-        return await self.request(request: request, decode: MRData<RaceTableAnd<Lap>>.self)
+        return await execute(JolpicaRequest(
+            endpoint: .drivers,
+            season: season,
+            round: round,
+            filters: [driverId, Endpoint.laps.rawValue]
+        ))
     }
     
+    /// Filters for the lap data for the drivers of a specific constructor in a given race.
+    ///
+    /// - Note: Data starts from the 1996 season.
+    ///
+    /// - Parameters:
+    ///     - season: Filters for the season that the list of laps will be from. Year numbers are valid as is current to get the laps of a given round in the current season.
+    ///     - round: Filters for the round in a specific season that the list of laps will be from. Round numbers 1 -> n races are valid as well as last.
+    ///     - constructorId: Filters for the lap data for the drivers of a specific constructor in a given race.
     public func getLaps(season: String, round: String, constructorId: String) async -> Result<MRData<RaceTableAnd<Lap>>> {
-        let request = formRequest(season: season, round: round, endpoint: "constructors", filters: [constructorId, "laps"])
-        
-        return await self.request(request: request, decode: MRData<RaceTableAnd<Lap>>.self)
+        return await execute(JolpicaRequest(
+            endpoint: .constructors,
+            season: season,
+            round: round,
+            filters: [constructorId, Endpoint.laps.rawValue]
+        ))
     }
 }

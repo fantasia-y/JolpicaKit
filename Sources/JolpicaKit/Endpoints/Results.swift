@@ -7,73 +7,107 @@
 
 import Foundation
 
-struct RaceResult: RaceAdditionalData {
-    static var dataKey: String { "Results" }
-    
-    let number: String
-    let position: String
-    let positionText: String
-    let points: String
-    let driver: Driver
-    let constructor: Constructor?
-    let grid: String?
-    let laps: String?
-    let status: String?
-    let fastestLap: FastestLap?
-}
-
-extension Jolpica {
-    public func getResults(
-        season: String?,
-        round: String?,
-        circuitId: String?,
-        constructorId: String?,
-        driverId: String?,
-        lapRank: String?,
-        gridPosition: String?
-    ) -> MRData<RaceTableAnd<RaceResult>>? {
-        return nil
-    }
-    
+class ResultsEndpoint: JolpicaEndpoint, @unchecked Sendable {
+    /// Returns a list of race results.
+    ///
+    /// - Parameters:
+    ///     - season: Filters for race results only from a specified season. Year numbers are valid as is current to get the current season.
+    ///     - round: Filters for the race results for a specified round in a specific season. Round numbers 1 -> n races are valid as well as last.
     public func getResults(season: String?, round: String?) async -> Result<MRData<RaceTableAnd<RaceResult>>> {
-        let request = formRequest(season: season, round: round, endpoint: "qualifying", filters: [])
-        
-        return await self.request(request: request, decode: MRData<RaceTableAnd<RaceResult>>.self)
+        return await execute(JolpicaRequest(
+            endpoint: .results,
+            season: season,
+            round: round
+        ))
     }
     
+    /// Filters for only race results from races at a specified circuit.
+    ///
+    /// - Parameters:
+    ///     - season: Filters for race results only from a specified season. Year numbers are valid as is current to get the current season.
+    ///     - round: Filters for the race results for a specified round in a specific season. Round numbers 1 -> n races are valid as well as last.
+    ///     - circuitId: Filters for only race results from races at a specified circuit.
     public func getResults(season: String?, round: String?, circuitId: String) async -> Result<MRData<RaceTableAnd<RaceResult>>> {
-        let request = formRequest(season: season, round: round, endpoint: "circuits", filters: [circuitId, "results"])
-        
-        return await self.request(request: request, decode: MRData<RaceTableAnd<RaceResult>>.self)
+        return await execute(JolpicaRequest(
+            endpoint: .circuits,
+            season: season,
+            round: round,
+            filters: [circuitId, Endpoint.results.rawValue]
+        ))
     }
     
+    /// Filters for only race results for drivers racings for a specified constructor.
+    ///
+    /// - Parameters:
+    ///     - season: Filters for race results only from a specified season. Year numbers are valid as is current to get the current season.
+    ///     - round: Filters for the race results for a specified round in a specific season. Round numbers 1 -> n races are valid as well as last.
+    ///     - constructorId: Filters for only race results for drivers racings for a specified constructor.
     public func getResults(season: String?, round: String?, constructorId: String) async -> Result<MRData<RaceTableAnd<RaceResult>>> {
-        let request = formRequest(season: season, round: round, endpoint: "constructors", filters: [constructorId, "results"])
-        
-        return await self.request(request: request, decode: MRData<RaceTableAnd<RaceResult>>.self)
+        return await execute(JolpicaRequest(
+            endpoint: .constructors,
+            season: season,
+            round: round,
+            filters: [constructorId, Endpoint.results.rawValue]
+        ))
     }
     
+    /// Filters for only race results for a specified driver.
+    ///
+    /// - Parameters:
+    ///     - season: Filters for race results only from a specified season. Year numbers are valid as is current to get the current season.
+    ///     - round: Filters for the race results for a specified round in a specific season. Round numbers 1 -> n races are valid as well as last.
+    ///     - driverId: Filters for only race results for a specified driver.
     public func getResults(season: String?, round: String?, driverId: String) async -> Result<MRData<RaceTableAnd<RaceResult>>> {
-        let request = formRequest(season: season, round: round, endpoint: "drivers", filters: [driverId, "results"])
-        
-        return await self.request(request: request, decode: MRData<RaceTableAnd<RaceResult>>.self)
+        return await execute(JolpicaRequest(
+            endpoint: .drivers,
+            season: season,
+            round: round,
+            filters: [driverId, Endpoint.results.rawValue]
+        ))
     }
     
+    /// Filters for only race results of the driver who had the nth fastest lap of the race.
+    ///
+    /// - Parameters:
+    ///     - season: Filters for race results only from a specified season. Year numbers are valid as is current to get the current season.
+    ///     - round: Filters for the race results for a specified round in a specific season. Round numbers 1 -> n races are valid as well as last.
+    ///     - lapRank: Filters for only race results of the driver who had the nth fastest lap of the race.
     public func getResults(season: String?, round: String?, lapRank: String) async -> Result<MRData<RaceTableAnd<RaceResult>>> {
-        let request = formRequest(season: season, round: round, endpoint: "fastest", filters: [lapRank, "results"])
-        
-        return await self.request(request: request, decode: MRData<RaceTableAnd<RaceResult>>.self)
+        return await execute(JolpicaRequest(
+            endpoint: .fastest,
+            season: season,
+            round: round,
+            filters: [lapRank, Endpoint.results.rawValue]
+        ))
     }
     
+    /// Filters for only race results for drivers starting in a specified grid position.
+    ///
+    /// - Parameters:
+    ///     - season: Filters for race results only from a specified season. Year numbers are valid as is current to get the current season.
+    ///     - round: Filters for the race results for a specified round in a specific season. Round numbers 1 -> n races are valid as well as last.
+    ///     - gridPosition: Filters for only race results for drivers starting in a specified grid position.
     public func getResults(season: String?, round: String?, gridPosition: String) async -> Result<MRData<RaceTableAnd<RaceResult>>> {
-        let request = formRequest(season: season, round: round, endpoint: "grid", filters: [gridPosition, "results"])
-        
-        return await self.request(request: request, decode: MRData<RaceTableAnd<RaceResult>>.self)
+        return await execute(JolpicaRequest(
+            endpoint: .grid,
+            season: season,
+            round: round,
+            filters: [gridPosition, Endpoint.results.rawValue]
+        ))
     }
     
+    /// Filters for only race results of a driver who finished the race with a specific status.
+    ///
+    /// - Parameters:
+    ///     - season: Filters for race results only from a specified season. Year numbers are valid as is current to get the current season.
+    ///     - round: Filters for the race results for a specified round in a specific season. Round numbers 1 -> n races are valid as well as last.
+    ///     - statusId: Filters for only race results of a driver who finished the race with a specific status.
     public func getResults(season: String?, round: String?, statusId: String) async -> Result<MRData<RaceTableAnd<RaceResult>>> {
-        let request = formRequest(season: season, round: round, endpoint: "status", filters: [statusId, "results"])
-        
-        return await self.request(request: request, decode: MRData<RaceTableAnd<RaceResult>>.self)
+        return await execute(JolpicaRequest(
+            endpoint: .status,
+            season: season,
+            round: round,
+            filters: [statusId, Endpoint.results.rawValue]
+        ))
     }
 }

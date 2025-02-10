@@ -20,13 +20,12 @@ Use ``https://github.com/fantasia-y/JolpicaKit.git``for the url.
 
 After adding the dependency you'll be able to import the package and initialize the client.
 
-Example (Jolpica.swift)
 ```
+// Jolpica.swift
+
 import JolpicaKit
 
-let jolpica = Jolpica(
-    enableLogging: true
-)
+let jolpica = Jolpica()
 ```
 
 # Documentation
@@ -37,6 +36,16 @@ Documentation for the API can found at the Jolpica API [GitHub Page](https://git
 
 At the moment no configuration is needed, just install the dependency and you're ready to go.
 This section will change in the future as soon as the Jolpica team finished implementing access tokens.
+
+## Logging
+
+You can however enable logging
+
+```
+let jolpica = Jolpica(
+    enableLogging: true
+)
+```
 
 # Usage
 
