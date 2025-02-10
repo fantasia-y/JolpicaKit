@@ -47,6 +47,11 @@ let jolpica = Jolpica(
 )
 ```
 
+# TODO
+
+- [ ] Query Parameters (limit, offset)
+- [ ] Tests
+
 # Usage
 
 Coming soon

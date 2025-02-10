@@ -69,8 +69,27 @@ class JolpicaEndpoint {
     }
     
     private func formRequest(season: String?, round: String?, endpoint: String, filters: [String]) -> URLRequest {
-        let url = URL(string: "")!
+        var baseURL = self.config.baseURL
         
+        if let season {
+            baseURL += "/\(season)"
+        }
+        
+        if let round {
+            baseURL += "/\(round)"
+        }
+        
+        baseURL += "/\(endpoint)"
+        
+        if !filters.isEmpty {
+            baseURL += "/\(filters.joined(separator: "/"))"
+        }
+        
+        baseURL += ".json"
+        
+        print(baseURL)
+        
+        let url = URL(string: baseURL)!
         var request = URLRequest(url: url)
         
         request.httpMethod = "GET"
@@ -90,6 +109,7 @@ class JolpicaEndpoint {
             }
             
             log("response code: \(httpResponse.statusCode)")
+            print(String(decoding: data, as: UTF8.self))
             
             if httpResponse.isSuccessful() {
                 return self.parseResponse(data: data)
@@ -107,7 +127,7 @@ class JolpicaEndpoint {
             
             return .success(try decoder.decode(T.self, from: data))
         } catch {
-            log("failed parsing successful response, error: \(error.localizedDescription)")
+            print("failed parsing successful response, error: \(error.localizedDescription)")
             
             return .failure("Failed to parse response")
         }

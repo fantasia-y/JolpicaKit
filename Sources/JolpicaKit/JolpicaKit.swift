@@ -8,6 +8,7 @@
 import Foundation
 
 struct JolpicaConfig {
+    let baseURL = "https://api.jolpi.ca/ergast/f1"
     let enableLogging: Bool
     
     init(enableLogging: Bool = false) {
