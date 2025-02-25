@@ -15,4 +15,12 @@ public struct Pitstop: RaceAdditionalData {
     public let stop: String?
     public let time: String?
     public let duration: String?
+    
+    public init(driverId: String, lap: String?, stop: String?, time: String?, duration: String?) {
+        self.driverId = driverId
+        self.lap = lap
+        self.stop = stop
+        self.time = time
+        self.duration = duration
+    }
 }

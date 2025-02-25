@@ -15,13 +15,24 @@ public struct CircuitTable: ResultData {
     enum CodingKeys: String, CodingKey {
         case circuits = "Circuits"
     }
+    
+    public init(circuits: [Circuit]) {
+        self.circuits = circuits
+    }
 }
 
-public struct Circuit: Decodable, Sendable {
+public struct Circuit: Decodable, Sendable, Hashable {
     public let circuitId: String
     public let url: String
     public let circuitName: String
     public let location: Location
+    
+    public init(circuitId: String, url: String, circuitName: String, location: Location) {
+        self.circuitId = circuitId
+        self.url = url
+        self.circuitName = circuitName
+        self.location = location
+    }
     
     enum CodingKeys: String, CodingKey {
         case circuitId

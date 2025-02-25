@@ -19,9 +19,15 @@ public struct StandingsTable<T: Standing>: ResultData {
         case round
         case standings = "StandingsLists"
     }
+    
+    public init(season: String, round: String, standings: [Standings<T>]) {
+        self.season = season
+        self.round = round
+        self.standings = standings
+    }
 }
 
-public struct Standings<T: Standing>: Decodable, Sendable {
+public struct Standings<T: Standing>: Decodable, Sendable, Hashable {
     public let season: String
     public let round: String
     public let standings: [T]
@@ -47,9 +53,15 @@ public struct Standings<T: Standing>: Decodable, Sendable {
         self.round = try container.decode(String.self, forKey: CodingKeys(stringValue: "round"))
         self.standings = try container.decode([T].self, forKey: CodingKeys.standings)
     }
+    
+    public init(season: String, round: String, standings: [T]) {
+        self.season = season
+        self.round = round
+        self.standings = standings
+    }
 }
 
-public protocol Standing: Decodable, Sendable {
+public protocol Standing: Decodable, Sendable, Hashable {
     static var standingKey: String { get }
 }
 
@@ -68,6 +80,14 @@ public struct ConstructorStanding: Standing {
         case points
         case wins
         case constructor = "Constructor"
+    }
+    
+    public init(position: String?, positionText: String, points: String, wins: String, constructor: Constructor) {
+        self.position = position
+        self.positionText = positionText
+        self.points = points
+        self.wins = wins
+        self.constructor = constructor
     }
 }
 
@@ -88,5 +108,14 @@ public struct DriverStanding: Standing {
         case wins
         case driver = "Driver"
         case constructors = "Constructors"
+    }
+    
+    public init(position: String?, positionText: String, points: String, wins: String, driver: Driver, constructors: [Constructor]) {
+        self.position = position
+        self.positionText = positionText
+        self.points = points
+        self.wins = wins
+        self.driver = driver
+        self.constructors = constructors
     }
 }

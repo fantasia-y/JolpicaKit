@@ -21,4 +21,18 @@ public struct Sprint: RaceAdditionalData {
     public let status: String?
     public let time: Time?
     public let fastestLap: FastestLap?
+    
+    public init(number: String, position: String, positionText: String, points: String, driver: Driver, constructor: Constructor?, grid: String?, laps: String?, status: String?, time: Time?, fastestLap: FastestLap?) {
+        self.number = number
+        self.position = position
+        self.positionText = positionText
+        self.points = points
+        self.driver = driver
+        self.constructor = constructor
+        self.grid = grid
+        self.laps = laps
+        self.status = status
+        self.time = time
+        self.fastestLap = fastestLap
+    }
 }

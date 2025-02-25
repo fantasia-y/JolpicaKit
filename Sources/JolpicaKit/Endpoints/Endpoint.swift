@@ -6,6 +6,9 @@
 //
 
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 import Logging
 
 public enum Result<T: Sendable>: Sendable {
@@ -117,6 +120,11 @@ public class JolpicaEndpoint {
     private func parseResponse<T: Decodable>(data: Data) -> Result<T> {
         do {
             let decoder = JSONDecoder()
+            
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"
+            
+            decoder.dateDecodingStrategy = .formatted(formatter)
             
             let result = try decoder.decode([String: T].self, from: data)
             
