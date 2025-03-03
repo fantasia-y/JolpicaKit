@@ -21,6 +21,13 @@ public struct RaceTable: ResultData {
         case lap
         case races = "Races"
     }
+    
+    public init(season: String?, round: String?, lap: String?, races: [Race]) {
+        self.season = season
+        self.round = round
+        self.lap = lap
+        self.races = races
+    }
 }
 
 public struct RaceTableAnd<T: RaceAdditionalData>: ResultData {
@@ -37,15 +44,22 @@ public struct RaceTableAnd<T: RaceAdditionalData>: ResultData {
         case lap
         case races = "Races"
     }
+    
+    public init(season: String?, round: String?, lap: String?, races: [RaceAnd<T>]) {
+        self.season = season
+        self.round = round
+        self.lap = lap
+        self.races = races
+    }
 }
 
-public struct Race: Decodable, Sendable {
+public struct Race: Decodable, Sendable, Hashable {
     public let season: String
     public let round: String
-    public let url: String
+    public let url: String?
     public let raceName: String
     public let circuit: Circuit
-    public let date: String
+    public let date: Date
     public let time: String?
     public let firstPractice: Event?
     public let secondPractice: Event?
@@ -53,6 +67,22 @@ public struct Race: Decodable, Sendable {
     public let qualifying: Event?
     public let sprint: Event?
     public let sprintQualifying: Event?
+    
+    public init(season: String, round: String, url: String?, raceName: String, circuit: Circuit, date: Date, time: String?, firstPractice: Event?, secondPractice: Event?, thirdPractice: Event?, qualifying: Event?, sprint: Event?, sprintQualifying: Event?) {
+        self.season = season
+        self.round = round
+        self.url = url
+        self.raceName = raceName
+        self.circuit = circuit
+        self.date = date
+        self.time = time
+        self.firstPractice = firstPractice
+        self.secondPractice = secondPractice
+        self.thirdPractice = thirdPractice
+        self.qualifying = qualifying
+        self.sprint = sprint
+        self.sprintQualifying = sprintQualifying
+    }
     
     enum CodingKeys: String, CodingKey {
         case season
@@ -71,13 +101,13 @@ public struct Race: Decodable, Sendable {
     }
 }
 
-public struct RaceAnd<T: RaceAdditionalData>: Decodable, Sendable {
+public struct RaceAnd<T: RaceAdditionalData>: Decodable, Sendable, Hashable {
     public let season: String
     public let round: String
-    public let url: String
+    public let url: String?
     public let raceName: String
     public let circuit: Circuit
-    public let date: String
+    public let date: Date
     public let time: String?
     public let additionalData: [T]?
     
@@ -103,17 +133,28 @@ public struct RaceAnd<T: RaceAdditionalData>: Decodable, Sendable {
         self.url = try container.decode(String.self, forKey: CodingKeys(stringValue: "url"))
         self.raceName = try container.decode(String.self, forKey: CodingKeys(stringValue: "raceName"))
         self.circuit = try container.decode(Circuit.self, forKey: CodingKeys(stringValue: "Circuit"))
-        self.date = try container.decode(String.self, forKey: CodingKeys(stringValue: "date"))
+        self.date = try container.decode(Date.self, forKey: CodingKeys(stringValue: "date"))
         self.time = try container.decode(String.self, forKey: CodingKeys(stringValue: "time"))
         self.additionalData = try container.decode([T].self, forKey: CodingKeys.additionalData)
     }
+    
+    public init(season: String, round: String, url: String?, raceName: String, circuit: Circuit, date: Date, time: String?, additionalData: [T]?) {
+        self.season = season
+        self.round = round
+        self.url = url
+        self.raceName = raceName
+        self.circuit = circuit
+        self.date = date
+        self.time = time
+        self.additionalData = additionalData
+    }
 }
 
-public protocol RaceAdditionalData: Decodable, Sendable {
+public protocol RaceAdditionalData: Decodable, Sendable, Hashable {
     static var dataKey: String { get }
 }
 
-public struct FastestLap: Decodable, Sendable {
+public struct FastestLap: Decodable, Sendable, Hashable {
     public let rank: String
     public let lap: String
     public let time: Time
@@ -126,8 +167,15 @@ public struct FastestLap: Decodable, Sendable {
         case averageSpeed = "AverageSpeed"
     }
     
-    public struct AverageSpeed: Decodable, Sendable {
+    public struct AverageSpeed: Decodable, Sendable, Hashable {
         public let units: String
         public let speed: String
+    }
+    
+    public init(rank: String, lap: String, time: Time, averageSpeed: AverageSpeed) {
+        self.rank = rank
+        self.lap = lap
+        self.time = time
+        self.averageSpeed = averageSpeed
     }
 }

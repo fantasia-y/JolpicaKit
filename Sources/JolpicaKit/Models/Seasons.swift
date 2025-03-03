@@ -15,9 +15,18 @@ public struct SeasonTable: ResultData {
     enum CodingKeys: String, CodingKey {
         case seasons = "Seasons"
     }
+    
+    public init(seasons: [Season]) {
+        self.seasons = seasons
+    }
 }
 
-public struct Season: Decodable, Sendable {
+public struct Season: Decodable, Sendable, Hashable {
     public let season: String
     public let url: String
+    
+    public init(season: String, url: String) {
+        self.season = season
+        self.url = url
+    }
 }

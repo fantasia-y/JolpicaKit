@@ -17,4 +17,9 @@ public struct Lap: RaceAdditionalData {
         case number
         case timings = "Timings"
     }
+    
+    public init(number: String, timings: [Timing]) {
+        self.number = number
+        self.timings = timings
+    }
 }

@@ -13,10 +13,12 @@ public class SeasonsEndpoint: JolpicaEndpoint, @unchecked Sendable {
     /// - Parameters:
     ///     - season: Filters for a specified season. Year numbers are valid as is current to get the current season.
     ///     - round: Filters for the race results for a specified round in a specific season. Round numbers 1 -> n races are valid as well as last.
-    public func getSeasons(season: String? = nil) async -> Result<MRData<SeasonTable>> {
+    public func getSeasons(season: String? = nil, offset: Int? = nil, limit: Int? = nil) async -> Result<MRData<SeasonTable>> {
         return await execute(JolpicaRequest(
             endpoint: .seasons,
-            season: season
+            season: season,
+            offset: offset,
+            limit: limit
         ))
     }
     
@@ -26,11 +28,13 @@ public class SeasonsEndpoint: JolpicaEndpoint, @unchecked Sendable {
     ///     - season: Filters for a specified season. Year numbers are valid as is current to get the current season.
     ///     - round: Filters for the race results for a specified round in a specific season. Round numbers 1 -> n races are valid as well as last.
     ///     - circuitId: Filters for only seasons featuring a specified circuit.
-    public func getSeasons(season: String? = nil, circuitId: String) async -> Result<MRData<SeasonTable>> {
+    public func getSeasons(season: String? = nil, circuitId: String, offset: Int? = nil, limit: Int? = nil) async -> Result<MRData<SeasonTable>> {
         return await execute(JolpicaRequest(
             endpoint: .circuits,
             season: season,
-            filters: [circuitId, Endpoint.seasons.rawValue]
+            filters: [circuitId, Endpoint.seasons.rawValue],
+            offset: offset,
+            limit: limit
         ))
     }
     
@@ -40,11 +44,13 @@ public class SeasonsEndpoint: JolpicaEndpoint, @unchecked Sendable {
     ///     - season: Filters for a specified season. Year numbers are valid as is current to get the current season.
     ///     - round: Filters for the race results for a specified round in a specific season. Round numbers 1 -> n races are valid as well as last.
     ///     - constructorId: Filters for only seasons featuring a specified constructor.
-    public func getSeasons(season: String? = nil, constructorId: String) async -> Result<MRData<SeasonTable>> {
+    public func getSeasons(season: String? = nil, constructorId: String, offset: Int? = nil, limit: Int? = nil) async -> Result<MRData<SeasonTable>> {
         return await execute(JolpicaRequest(
             endpoint: .constructors,
             season: season,
-            filters: [constructorId, Endpoint.seasons.rawValue]
+            filters: [constructorId, Endpoint.seasons.rawValue],
+            offset: offset,
+            limit: limit
         ))
     }
     
@@ -54,11 +60,13 @@ public class SeasonsEndpoint: JolpicaEndpoint, @unchecked Sendable {
     ///     - season: Filters for a specified season. Year numbers are valid as is current to get the current season.
     ///     - round: Filters for the race results for a specified round in a specific season. Round numbers 1 -> n races are valid as well as last.
     ///     - driverId: Filters for only seasons featuring a specified driver.
-    public func getSeasons(season: String? = nil, driverId: String) async -> Result<MRData<SeasonTable>> {
+    public func getSeasons(season: String? = nil, driverId: String, offset: Int? = nil, limit: Int? = nil) async -> Result<MRData<SeasonTable>> {
         return await execute(JolpicaRequest(
             endpoint: .drivers,
             season: season,
-            filters: [driverId, Endpoint.seasons.rawValue]
+            filters: [driverId, Endpoint.seasons.rawValue],
+            offset: offset,
+            limit: limit
         ))
     }
     
@@ -68,11 +76,13 @@ public class SeasonsEndpoint: JolpicaEndpoint, @unchecked Sendable {
     ///     - season: Filters for a specified season. Year numbers are valid as is current to get the current season.
     ///     - round: Filters for the race results for a specified round in a specific season. Round numbers 1 -> n races are valid as well as last.
     ///     - gridPosition: Filters for only seasons featuring a specified grid position.
-    public func getSeasons(season: String? = nil, gridPosition: String) async -> Result<MRData<SeasonTable>> {
+    public func getSeasons(season: String? = nil, gridPosition: String, offset: Int? = nil, limit: Int? = nil) async -> Result<MRData<SeasonTable>> {
         return await execute(JolpicaRequest(
             endpoint: .grid,
             season: season,
-            filters: [gridPosition, Endpoint.seasons.rawValue]
+            filters: [gridPosition, Endpoint.seasons.rawValue],
+            offset: offset,
+            limit: limit
         ))
     }
     
@@ -82,11 +92,13 @@ public class SeasonsEndpoint: JolpicaEndpoint, @unchecked Sendable {
     ///     - season: Filters for a specified season. Year numbers are valid as is current to get the current season.
     ///     - round: Filters for the race results for a specified round in a specific season. Round numbers 1 -> n races are valid as well as last.
     ///     - statusId: Filters for only seasons featuring a specified finishing status of a driver in at least one race that season.
-    public func getSeasons(season: String? = nil, statusId: String) async -> Result<MRData<SeasonTable>> {
+    public func getSeasons(season: String? = nil, statusId: String, offset: Int? = nil, limit: Int? = nil) async -> Result<MRData<SeasonTable>> {
         return await execute(JolpicaRequest(
             endpoint: .status,
             season: season,
-            filters: [statusId, Endpoint.seasons.rawValue]
+            filters: [statusId, Endpoint.seasons.rawValue],
+            offset: offset,
+            limit: limit
         ))
     }
 }

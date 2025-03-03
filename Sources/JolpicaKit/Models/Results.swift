@@ -20,4 +20,30 @@ public struct RaceResult: RaceAdditionalData {
     public let laps: String?
     public let status: String?
     public let fastestLap: FastestLap?
+    
+    enum CodingKeys: String, CodingKey {
+        case number
+        case position
+        case positionText
+        case points
+        case driver = "Driver"
+        case constructor = "Constructor"
+        case grid
+        case laps
+        case status
+        case fastestLap = "FastetLap"
+    }
+    
+    public init(number: String, position: String, positionText: String, points: String, driver: Driver, constructor: Constructor?, grid: String?, laps: String?, status: String?, fastestLap: FastestLap?) {
+        self.number = number
+        self.position = position
+        self.positionText = positionText
+        self.points = points
+        self.driver = driver
+        self.constructor = constructor
+        self.grid = grid
+        self.laps = laps
+        self.status = status
+        self.fastestLap = fastestLap
+    }
 }

@@ -27,4 +27,14 @@ public struct QualifyingResults: RaceAdditionalData {
         case q2 = "Q2"
         case q3 = "Q3"
     }
+    
+    public init(number: String, position: String, driver: Driver, constructor: Constructor, q1: String?, q2: String?, q3: String?) {
+        self.number = number
+        self.position = position
+        self.driver = driver
+        self.constructor = constructor
+        self.q1 = q1
+        self.q2 = q2
+        self.q3 = q3
+    }
 }

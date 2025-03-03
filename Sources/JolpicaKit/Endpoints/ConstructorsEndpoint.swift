@@ -13,11 +13,13 @@ public class ConstructorsEndpoint: JolpicaEndpoint, @unchecked Sendable {
     /// - Parameters:
     ///     - season: Filters only constructors that participated in a specified season. Year numbers are valid as is current to get the current season list of constructors.
     ///     - round: Filters only constructors that participated in a specified round of a specific season. Round numbers 1 -> n races are valid as well as last.
-    public func getConstructors(season: String? = nil, round: String? = nil) async -> Result<MRData<ConstructorTable>> {
+    public func getConstructors(season: String? = nil, round: String? = nil, offset: Int? = nil, limit: Int? = nil) async -> Result<MRData<ConstructorTable>> {
         return await execute(JolpicaRequest(
             endpoint: .constructors,
             season: season,
-            round: round
+            round: round,
+            offset: offset,
+            limit: limit
         ))
     }
     
@@ -27,12 +29,14 @@ public class ConstructorsEndpoint: JolpicaEndpoint, @unchecked Sendable {
     ///     - season: Filters only constructors that participated in a specified season. Year numbers are valid as is current to get the current season list of constructors.
     ///     - round: Filters only constructors that participated in a specified round of a specific season. Round numbers 1 -> n races are valid as well as last.
     ///     - circuitId: Filters for only constructors who have participated in a race at a given circuit.
-    public func getConstructors(season: String? = nil, round: String? = nil, circuitId: String) async -> Result<MRData<ConstructorTable>> {
+    public func getConstructors(season: String? = nil, round: String? = nil, circuitId: String, offset: Int? = nil, limit: Int? = nil) async -> Result<MRData<ConstructorTable>> {
         return await execute(JolpicaRequest(
             endpoint: .circuits,
             season: season,
             round: round,
-            filters: [circuitId, Endpoint.constructors.rawValue]
+            filters: [circuitId, Endpoint.constructors.rawValue],
+            offset: offset,
+            limit: limit
         ))
     }
     
@@ -42,12 +46,14 @@ public class ConstructorsEndpoint: JolpicaEndpoint, @unchecked Sendable {
     ///     - season: Filters only constructors that participated in a specified season. Year numbers are valid as is current to get the current season list of constructors.
     ///     - round: Filters only constructors that participated in a specified round of a specific season. Round numbers 1 -> n races are valid as well as last.
     ///     - constructorId: Filters for only a specified constructor.
-    public func getConstructors(season: String? = nil, round: String? = nil, constructorId: String) async -> Result<MRData<ConstructorTable>> {
+    public func getConstructors(season: String? = nil, round: String? = nil, constructorId: String, offset: Int? = nil, limit: Int? = nil) async -> Result<MRData<ConstructorTable>> {
         return await execute(JolpicaRequest(
             endpoint: .constructors,
             season: season,
             round: round,
-            filters: [constructorId]
+            filters: [constructorId],
+            offset: offset,
+            limit: limit
         ))
     }
     
@@ -57,12 +63,14 @@ public class ConstructorsEndpoint: JolpicaEndpoint, @unchecked Sendable {
     ///     - season: Filters only constructors that participated in a specified season. Year numbers are valid as is current to get the current season list of constructors.
     ///     - round: Filters only constructors that participated in a specified round of a specific season. Round numbers 1 -> n races are valid as well as last.
     ///     - driverId: Filters for only constructors that had a driver race for them.
-    public func getConstructors(season: String? = nil, round: String? = nil, driverId: String) async -> Result<MRData<ConstructorTable>> {
+    public func getConstructors(season: String? = nil, round: String? = nil, driverId: String, offset: Int? = nil, limit: Int? = nil) async -> Result<MRData<ConstructorTable>> {
         return await execute(JolpicaRequest(
             endpoint: .drivers,
             season: season,
             round: round,
-            filters: [driverId, Endpoint.constructors.rawValue]
+            filters: [driverId, Endpoint.constructors.rawValue],
+            offset: offset,
+            limit: limit
         ))
     }
     
@@ -72,12 +80,14 @@ public class ConstructorsEndpoint: JolpicaEndpoint, @unchecked Sendable {
     ///     - season: Filters only constructors that participated in a specified season. Year numbers are valid as is current to get the current season list of constructors.
     ///     - round: Filters only constructors that participated in a specified round of a specific season. Round numbers 1 -> n races are valid as well as last.
     ///     - lapRank: Filters for only constructors that finished a race with a lap that was the ranked in the specified position.
-    public func getConstructors(season: String? = nil, round: String? = nil, lapRank: String) async -> Result<MRData<ConstructorTable>> {
+    public func getConstructors(season: String? = nil, round: String? = nil, lapRank: String, offset: Int? = nil, limit: Int? = nil) async -> Result<MRData<ConstructorTable>> {
         return await execute(JolpicaRequest(
             endpoint: .fastest,
             season: season,
             round: round,
-            filters: [lapRank, Endpoint.constructors.rawValue]
+            filters: [lapRank, Endpoint.constructors.rawValue],
+            offset: offset,
+            limit: limit
         ))
     }
     
@@ -87,12 +97,14 @@ public class ConstructorsEndpoint: JolpicaEndpoint, @unchecked Sendable {
     ///     - season: Filters only constructors that participated in a specified season. Year numbers are valid as is current to get the current season list of constructors.
     ///     - round: Filters only constructors that participated in a specified round of a specific season. Round numbers 1 -> n races are valid as well as last.
     ///     - gridPosition: Filters for only constructors which had a driver racing for them start a race in a specific grid position.
-    public func getConstructors(season: String? = nil, round: String? = nil, gridPosition: String) async -> Result<MRData<ConstructorTable>> {
+    public func getConstructors(season: String? = nil, round: String? = nil, gridPosition: String, offset: Int? = nil, limit: Int? = nil) async -> Result<MRData<ConstructorTable>> {
         return await execute(JolpicaRequest(
             endpoint: .grid,
             season: season,
             round: round,
-            filters: [gridPosition, Endpoint.constructors.rawValue]
+            filters: [gridPosition, Endpoint.constructors.rawValue],
+            offset: offset,
+            limit: limit
         ))
     }
     
@@ -102,12 +114,14 @@ public class ConstructorsEndpoint: JolpicaEndpoint, @unchecked Sendable {
     ///     - season: Filters only constructors that participated in a specified season. Year numbers are valid as is current to get the current season list of constructors.
     ///     - round: Filters only constructors that participated in a specified round of a specific season. Round numbers 1 -> n races are valid as well as last.
     ///     - finishPosition: Filters for only constructors which had a driver racing for them finish a race in a specific position.
-    public func getConstructors(season: String? = nil, round: String? = nil, finishPosition: String) async -> Result<MRData<ConstructorTable>> {
+    public func getConstructors(season: String? = nil, round: String? = nil, finishPosition: String, offset: Int? = nil, limit: Int? = nil) async -> Result<MRData<ConstructorTable>> {
         return await execute(JolpicaRequest(
             endpoint: .results,
             season: season,
             round: round,
-            filters: [finishPosition, Endpoint.constructors.rawValue]
+            filters: [finishPosition, Endpoint.constructors.rawValue],
+            offset: offset,
+            limit: limit
         ))
     }
     
@@ -117,12 +131,14 @@ public class ConstructorsEndpoint: JolpicaEndpoint, @unchecked Sendable {
     ///     - season: Filters only constructors that participated in a specified season. Year numbers are valid as is current to get the current season list of constructors.
     ///     - round: Filters only constructors that participated in a specified round of a specific season. Round numbers 1 -> n races are valid as well as last.
     ///     - statusId: Filters for only constructors who had a driver finish a race with a specific statusId.
-    public func getConstructors(season: String? = nil, round: String? = nil, statusId: String) async -> Result<MRData<ConstructorTable>> {
+    public func getConstructors(season: String? = nil, round: String? = nil, statusId: String, offset: Int? = nil, limit: Int? = nil) async -> Result<MRData<ConstructorTable>> {
         return await execute(JolpicaRequest(
             endpoint: .status,
             season: season,
             round: round,
-            filters: [statusId, Endpoint.constructors.rawValue]
+            filters: [statusId, Endpoint.constructors.rawValue],
+            offset: offset,
+            limit: limit
         ))
     }
 }

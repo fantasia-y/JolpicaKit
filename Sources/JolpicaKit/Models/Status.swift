@@ -17,10 +17,21 @@ public struct StatusTable: ResultData {
         case season
         case status = "Status"
     }
+    
+    public init(season: String?, status: [Status]) {
+        self.season = season
+        self.status = status
+    }
 }
 
-public struct Status: Decodable, Sendable {
+public struct Status: Decodable, Sendable, Hashable {
     public let statusId: String
     public let count: String
     public let status: String
+    
+    public init(statusId: String, count: String, status: String) {
+        self.statusId = statusId
+        self.count = count
+        self.status = status
+    }
 }

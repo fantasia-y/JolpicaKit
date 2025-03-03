@@ -6,6 +6,9 @@
 //
 
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 import Logging
 
 public enum Result<T: Sendable>: Sendable {
@@ -36,12 +39,16 @@ public struct JolpicaRequest {
     let season: String?
     let round: String?
     let filters: [String]
+    let offset: Int?
+    let limit: Int?
     
-    init(endpoint: Endpoint, season: String? = nil, round: String? = nil, filters: [String] = []) {
+    init(endpoint: Endpoint, season: String? = nil, round: String? = nil, filters: [String] = [], offset: Int? = nil, limit: Int? = nil) {
         self.endpoint = endpoint
         self.season = season
         self.round = round
         self.filters = filters
+        self.offset = offset
+        self.limit = limit
     }
 }
 
@@ -59,12 +66,12 @@ public class JolpicaEndpoint {
     }
     
     internal func execute<T: Decodable>(_ request: JolpicaRequest) async -> Result<T> {
-        let req = self.formRequest(season: request.season, round: request.round, endpoint: request.endpoint.rawValue, filters: request.filters)
+        let req = self.formRequest(season: request.season, round: request.round, endpoint: request.endpoint.rawValue, filters: request.filters, offset: request.offset, limit: request.limit)
         
         return await self.request(request: req, decode: T.self)
     }
     
-    private func formRequest(season: String?, round: String?, endpoint: String, filters: [String]) -> URLRequest {
+    private func formRequest(season: String?, round: String?, endpoint: String, filters: [String], offset: Int?, limit: Int?) -> URLRequest {
         var baseURL = self.config.baseURL
         
         if let season {
@@ -83,8 +90,21 @@ public class JolpicaEndpoint {
         
         baseURL += ".json"
         
-        let url = URL(string: baseURL)!
+        var components = URLComponents(string: baseURL)!
+        
+        var queryItems = [URLQueryItem]()
+        if let offset {
+            queryItems.append(.init(name: "offset", value: String(offset)))
+        }
+        if let limit {
+            queryItems.append(.init(name: "limit", value: String(limit)))
+        }
+        components.queryItems = queryItems
+        
+        let url = components.url!
         var request = URLRequest(url: url)
+        
+        request.cachePolicy = config.cachePolicy
         
         request.httpMethod = "GET"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -117,6 +137,11 @@ public class JolpicaEndpoint {
     private func parseResponse<T: Decodable>(data: Data) -> Result<T> {
         do {
             let decoder = JSONDecoder()
+            
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"
+            
+            decoder.dateDecodingStrategy = .formatted(formatter)
             
             let result = try decoder.decode([String: T].self, from: data)
             
