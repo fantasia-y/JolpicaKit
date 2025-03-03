@@ -8,10 +8,12 @@
 import Foundation
 
 public class StatusEndpoint: JolpicaEndpoint, @unchecked Sendable {
-    public func getStatus(season: String? = nil) async -> Result<MRData<StatusTable>> {
+    public func getStatus(season: String? = nil, offset: Int? = nil, limit: Int? = nil) async -> Result<MRData<StatusTable>> {
         return await execute(JolpicaRequest(
             endpoint: .status,
-            season: season
+            season: season,
+            offset: offset,
+            limit: limit
         ))
     }
 }

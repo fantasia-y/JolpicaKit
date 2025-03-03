@@ -11,7 +11,7 @@ public struct StandingsTable<T: Standing>: ResultData {
     public static var resultKey: String { "StandingsTable" }
     
     public let season: String
-    public let round: String
+    public let round: String?
     public let standings: [Standings<T>]
     
     enum CodingKeys: String, CodingKey {
@@ -20,7 +20,7 @@ public struct StandingsTable<T: Standing>: ResultData {
         case standings = "StandingsLists"
     }
     
-    public init(season: String, round: String, standings: [Standings<T>]) {
+    public init(season: String, round: String?, standings: [Standings<T>]) {
         self.season = season
         self.round = round
         self.standings = standings

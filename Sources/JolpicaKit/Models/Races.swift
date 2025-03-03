@@ -56,7 +56,7 @@ public struct RaceTableAnd<T: RaceAdditionalData>: ResultData {
 public struct Race: Decodable, Sendable, Hashable {
     public let season: String
     public let round: String
-    public let url: String
+    public let url: String?
     public let raceName: String
     public let circuit: Circuit
     public let date: Date
@@ -68,7 +68,7 @@ public struct Race: Decodable, Sendable, Hashable {
     public let sprint: Event?
     public let sprintQualifying: Event?
     
-    public init(season: String, round: String, url: String, raceName: String, circuit: Circuit, date: Date, time: String?, firstPractice: Event?, secondPractice: Event?, thirdPractice: Event?, qualifying: Event?, sprint: Event?, sprintQualifying: Event?) {
+    public init(season: String, round: String, url: String?, raceName: String, circuit: Circuit, date: Date, time: String?, firstPractice: Event?, secondPractice: Event?, thirdPractice: Event?, qualifying: Event?, sprint: Event?, sprintQualifying: Event?) {
         self.season = season
         self.round = round
         self.url = url
@@ -104,7 +104,7 @@ public struct Race: Decodable, Sendable, Hashable {
 public struct RaceAnd<T: RaceAdditionalData>: Decodable, Sendable, Hashable {
     public let season: String
     public let round: String
-    public let url: String
+    public let url: String?
     public let raceName: String
     public let circuit: Circuit
     public let date: Date
@@ -138,7 +138,7 @@ public struct RaceAnd<T: RaceAdditionalData>: Decodable, Sendable, Hashable {
         self.additionalData = try container.decode([T].self, forKey: CodingKeys.additionalData)
     }
     
-    public init(season: String, round: String, url: String, raceName: String, circuit: Circuit, date: Date, time: String?, additionalData: [T]?) {
+    public init(season: String, round: String, url: String?, raceName: String, circuit: Circuit, date: Date, time: String?, additionalData: [T]?) {
         self.season = season
         self.round = round
         self.url = url

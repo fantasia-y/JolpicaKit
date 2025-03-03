@@ -6,13 +6,18 @@
 //
 
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 public struct JolpicaConfig {
     let baseURL = "https://api.jolpi.ca/ergast/f1"
     let enableLogging: Bool
+    let cachePolicy: URLRequest.CachePolicy
     
-    init(enableLogging: Bool = false) {
+    init(enableLogging: Bool = false, cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy) {
         self.enableLogging = enableLogging
+        self.cachePolicy = cachePolicy
     }
 }
 
@@ -31,9 +36,10 @@ public final class JolpicaClient: Sendable {
     public let results: ResultsEndpoint
     public let sprints: SprintsEndpoint
     
-    public convenience init(enableLogging: Bool = false) {
+    public convenience init(enableLogging: Bool = false, cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy) {
         self.init(config: JolpicaConfig(
-            enableLogging: enableLogging
+            enableLogging: enableLogging,
+            cachePolicy: cachePolicy
         ))
     }
     
