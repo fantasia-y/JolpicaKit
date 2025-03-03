@@ -52,8 +52,8 @@ let jolpica = Jolpica(
 # TODO
 
 - [X] Switch to swift-log for linux support
-- [ ] Query Parameters (limit, offset)
-- [ ] More control over caching
+- [X] Query Parameters (limit, offset)
+- [X] More control over caching
 - [ ] Tests
 
 # Usage
