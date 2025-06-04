@@ -17,38 +17,19 @@ public enum Result<T: Sendable>: Sendable {
 }
 
 public enum Endpoint: String {
-    case circuits = "circuits"
-    case constructors = "constructors"
-    case drivers = "drivers"
-    case fastest = "fastest"
-    case grid = "grid"
-    case seasons = "seasons"
-    case races = "races"
-    case constructorstandings = "constructorstandings"
-    case driverstandings = "driverstandings"
-    case status = "status"
-    case laps = "laps"
-    case pitstops = "pitstops"
-    case qualifying = "qualifying"
-    case results = "results"
-    case sprints = "sprint"
+    case schedules = "schedules"
+    case sessions = "sessions"
 }
 
 public struct JolpicaRequest {
     let endpoint: Endpoint
-    let season: String?
-    let round: String?
-    let filters: [String]
-    let offset: Int?
-    let limit: Int?
+    let query: [String: String]?
+    let path: [String]?
     
-    init(endpoint: Endpoint, season: String? = nil, round: String? = nil, filters: [String] = [], offset: Int? = nil, limit: Int? = nil) {
+    init(endpoint: Endpoint, query: [String: String]? = nil, path: [String]? = nil) {
         self.endpoint = endpoint
-        self.season = season
-        self.round = round
-        self.filters = filters
-        self.offset = offset
-        self.limit = limit
+        self.query = query
+        self.path = path
     }
 }
 
@@ -66,38 +47,25 @@ public class JolpicaEndpoint {
     }
     
     internal func execute<T: Decodable>(_ request: JolpicaRequest) async -> Result<T> {
-        let req = self.formRequest(season: request.season, round: request.round, endpoint: request.endpoint.rawValue, filters: request.filters, offset: request.offset, limit: request.limit)
+        let req = self.formRequest(request)
         
         return await self.request(request: req, decode: T.self)
     }
     
-    private func formRequest(season: String?, round: String?, endpoint: String, filters: [String], offset: Int?, limit: Int?) -> URLRequest {
+    private func formRequest(_ request: JolpicaRequest) -> URLRequest {
         var baseURL = self.config.baseURL
         
-        if let season {
-            baseURL += "/\(season)"
+        baseURL += "/\(request.endpoint)"
+        
+        if let path = request.path, !path.isEmpty {
+            baseURL += "/\(path.joined(separator: "/"))"
         }
-        
-        if let round {
-            baseURL += "/\(round)"
-        }
-        
-        baseURL += "/\(endpoint)"
-        
-        if !filters.isEmpty {
-            baseURL += "/\(filters.joined(separator: "/"))"
-        }
-        
-        baseURL += ".json"
         
         var components = URLComponents(string: baseURL)!
         
         var queryItems = [URLQueryItem]()
-        if let offset {
-            queryItems.append(.init(name: "offset", value: String(offset)))
-        }
-        if let limit {
-            queryItems.append(.init(name: "limit", value: String(limit)))
+        for (name, value) in request.query ?? [:] {
+            queryItems.append(.init(name: name, value: value))
         }
         components.queryItems = queryItems
         
